@@ -2,7 +2,6 @@
 
 $inData = getRequestInfo();
 
-
 // In our data, we need the following information
 $userId = $inData["userId"];
 $contactName = $inData["contactName"];
