@@ -30,13 +30,13 @@ else
     // Our SQL command.
     $sql = "insert into USERS (Username, Password, PreferredName, CompanyName, Position, "
     . "Email, Phone) VALUES ('" . $username . "','" . $encryptedPassword . "','" . $name
-    . "','" . $companyName . "','" . $position . "','" . $address "','" . $email . "','"
-    . $phone . "')"
+    . "','" . $companyName . "','" . $position . "','" . $address . "','" . $email . "','"
+    . $phone . "')";
 
     // Check if our query is successful or not
     if ($result = $conn->query($sql) != TRUE)
     {
-        returnWithError($conn->error)
+        returnWithError($conn->error);
     }
 
     $conn->close();
