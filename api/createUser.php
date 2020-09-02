@@ -19,7 +19,7 @@ $encryptedPassword = "AES_ENCRYPT('" . $password . "', UNHEX(SHA2('" . $key . "'
 
 
 
-echo("Our encrypted password is: " . $encryptedPassword . " \n");
+echo("SQL expression to encrypt password: " . $encryptedPassword . " \n");
 
 // Establish connection
 $conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
@@ -35,7 +35,7 @@ else
     $sql = "insert into USERS (Username, Password, PreferredName, CompanyName, Position, Address,"
     . "Email, Phone) VALUES (
         '" . $username . "',
-        '" . $encryptedPassword . "',
+        " . $encryptedPassword . ",
         '" . $name . "',
         '" . $companyName . "',
         '" . $position . "',
