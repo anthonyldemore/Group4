@@ -15,10 +15,10 @@ $phone = $inData["phone"];
 // Encrypt password
 $encryptedPassword = AES_ENCRYPT($password, UNHEX(SHA2("poop", 256)));
 
-echo("Our encrypted password is: " . $encryptedPassword . "\n");
+echo("Our encrypted password is: " . $encryptedPassword . " \n");
 
 // Establish connection
-$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate")
+$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 
 // Test connection
 if ($conn->connect_error)
