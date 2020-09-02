@@ -13,7 +13,11 @@ $email = $inData["email"];
 $phone = $inData["phone"];
 
 // Encrypt password
-$encryptedPassword = AES_ENCRYPT($password, UNHEX(SHA2("poop", 256)));
+$key = "poop";
+$encryptedPassword = "AES_ENCRYPT(" . $password . ", UNHEX(SHA2(" . $key . ", 256)))";
+
+
+
 
 echo("Our encrypted password is: " . $encryptedPassword . " \n");
 
@@ -28,10 +32,16 @@ if ($conn->connect_error)
 else
 {
     // Our SQL command.
-    $sql = "insert into USERS (Username, Password, PreferredName, CompanyName, Position, "
-    . "Email, Phone) VALUES ('" . $username . "','" . $encryptedPassword . "','" . $name
-    . "','" . $companyName . "','" . $position . "','" . $address . "','" . $email . "','"
-    . $phone . "')";
+    $sql = "insert into USERS (Username, Password, PreferredName, CompanyName, Position, Address,"
+    . "Email, Phone) VALUES (
+        '" . $username . "',
+        '" . $encryptedPassword . "',
+        '" . $name . "',
+        '" . $companyName . "',
+        '" . $position . "',
+        '" . $address . "',
+        '" . $email . "',
+        '" . $phone . "')";
 
     // Check if our query is successful or not
     if ($result = $conn->query($sql) != TRUE)
