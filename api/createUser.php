@@ -13,13 +13,9 @@ $email = $inData["email"];
 $phone = $inData["phone"];
 
 // Encrypt password
-$key = "poop";
-$encryptedPassword = "AES_ENCRYPT('" . $password . "', UNHEX(SHA2('" . $key . "', 256)))";
+$key - 'poop';
+$encryptedPassword = "AES_ENCRYPT(" . $password . ", UNHEX(SHA2('" . $key . "', 256)))";
 
-
-
-
-echo("SQL expression to encrypt password: " . $encryptedPassword . " \n");
 
 // Establish connection
 $conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
