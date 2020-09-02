@@ -14,7 +14,7 @@ $phone = $inData["phone"];
 
 // Encrypt password
 $key = "poop";
-$encryptedPassword = "AES_ENCRYPT(" . $password . ", UNHEX(SHA2(" . $key . ", 256)))";
+$encryptedPassword = "AES_ENCRYPT('" . $password . "', UNHEX(SHA2('" . $key . "', 256)))";
 
 
 
