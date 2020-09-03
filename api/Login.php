@@ -4,7 +4,7 @@
 
 	$Username = 0;
 	$Password = "";
-	$PreferredName = "";
+	$Id = 0;
 
 	$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 	if ($conn->connect_error)
@@ -13,7 +13,7 @@
 	}
 	else
 	{
-		// $sql = "SELECT Username,PreferredName FROM Users where Login='" . $inData["login"] . "' and Password='" . $inData["password"] . "'";
+		// $sql = "SELECT ID,PreferredName FROM Users where Login='" . $inData["login"] . "' and Password='" . $inData["password"] . "'";
 		$sql = "select * FROM USERS";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
@@ -21,16 +21,16 @@
 			$row = $result->fetch_assoc();
 			$Username = $row["Username"];
 			$Password = $row["Password"];
-			$PreferredName = $row["PreferredName"];
+			$Id = $row["ID"];
 
 			// Only used to confirm database connection works
 			echo $Username;
 			echo "<br>";
 			echo $Password;
 			echo "<br>";
-			echo $PreferredName;
+			echo $Id;
 
-			//returnWithInfo($PreferredName, $Username);
+			//returnWithInfo($ID, $Username);
 		}
 		else
 		{
@@ -52,13 +52,13 @@
 
 	function returnWithError( $err )
 	{
-		$retValue = '{"Username":0,"PreferredName":"","error":"' . $err . '"}';
+		$retValue = '{"ID":0,"PreferredName":"","error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnWithInfo( $PreferredName, $Username )
 	{
-		$retValue = '{"id":' . $Username . ',"firstName":"' . $PreferredName . '","lastName":"' . $lastName . '","error":""}';
+		$retValue = '{"id":' . $ID . ',"PreferredName":"' . $PreferredName . '","error":""}';
 		sendResultInfoAsJson( $retValue );
 	}*/
 
