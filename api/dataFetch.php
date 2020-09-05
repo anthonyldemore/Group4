@@ -1,5 +1,5 @@
 <?php
-  returnWithInfo( $searchResults );
+  $key = 'poop';
 
   function getRequestInfo()
   {
