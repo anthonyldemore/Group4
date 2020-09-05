@@ -18,9 +18,9 @@
     sendResultInfoAsJson( $retValue );
   }
 
-  function returnWithInfo( $results )
+  function returnWithInfo( $resultJSON )
   {
-    $retValue = '{"results":' . $results . '}';
+    $retValue = '{"results":' . $resultJSON . '}';
     sendResultInfoAsJson( $retValue );
   }
 ?>
