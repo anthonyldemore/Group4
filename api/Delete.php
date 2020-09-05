@@ -1,5 +1,5 @@
 <?php
-	include 'dataFetch.php';
+	include 'common.php';
 
 	//$inData = getRequestInfo();
 

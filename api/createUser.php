@@ -1,5 +1,5 @@
 <?php
-  include 'dataFetch.php';
+  include 'common.php';
 
   $inData = getRequestInfo();
 
@@ -14,8 +14,7 @@
   $phone = $inData["phone"];
 
   // Encrypt password
-  $key - 'poop';
-  $encryptedPassword = "AES_ENCRYPT(" . $password . ", UNHEX(SHA2('" . $key . "', 256)))";
+  $encryptedPassword = "AES_ENCRYPT('" . $password . "', UNHEX(SHA2('" . $key . "', 256)))";
 
 
   // Establish connection
@@ -29,8 +28,8 @@
   else
   {
       // Our SQL command.
-      $sql = "insert into USERS (Username, Password, PreferredName, CompanyName, Position, Address,"
-      . "Email, Phone) VALUES (
+      $sql = "INSERT INTO `USERS` (`Username`, `Password`, `PreferredName`, `CompanyName`, `Position`, `Address`, `Email`, `Phone`)"
+      . "VALUES (
           '" . $username . "',
           " . $encryptedPassword . ",
           '" . $name . "',
@@ -44,6 +43,11 @@
       if ($result = $conn->query($sql) != TRUE)
       {
           returnWithError($conn->error);
+      }
+
+      else
+      {
+          returnWithInfo('"User ' . $username . ' has been created."');
       }
 
       $conn->close();
