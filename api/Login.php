@@ -45,6 +45,6 @@
 		{
 			returnWithError( "Invalid username or password." );
 		}
-		//$conn->close();
+		$conn->close();
 	}
 ?>
