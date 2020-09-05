@@ -22,7 +22,7 @@
   else
   {
       // Insert necessary values.
-      $sql = "insert into CONTACTS (UserId, ContactName, CompanyName, Address, Email, Phone) "
+      $sql = "INSERT INTO `CONTACTS` (`UserId`, `ContactName`, `CompanyName`, `Address`, `Email`, `Phone`) "
       . "VALUES (" . $userId . ",'" . $contactName . "','" . $companyName . "','" . $address
       . "','" . $email . "','" . $phone . "')";
 
