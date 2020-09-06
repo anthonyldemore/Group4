@@ -1,5 +1,5 @@
 # Corporate Contacts
-This is Group 4's small project for UCF's COP4334 class. In this repository, we store files needed to make our web application work, which is a simple contacts manager where you can keep track of contact info.
+This is Group 4's small project for UCF's COP4331 class. In this repository, we store files needed to make our web application work, which is a simple contacts manager where you can keep track of contact info.
 You can visit the web application [here](http://corporatecontacts.club).
 
 ## Credits
