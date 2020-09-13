@@ -28,7 +28,7 @@
 				"Username" => $row["Username"],
 				"Name" => $row["PreferredName"],
 				"Prev Login Date" => $row["LastLoginDate"],
-				"Message" => "User " . $row["Username"] . " has logged in."
+				"Message" => "User $Username has logged in."
 			);
 
 			//Update Last Login Date.
