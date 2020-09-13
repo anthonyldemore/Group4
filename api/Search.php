@@ -3,10 +3,8 @@
 
 	$inData = getRequestInfo();
 
-	$SearchedName = $inData["search"];
-
 	$searchResults = "";
-	$email = "";
+	$searchCount = 0;
 
 	$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 	if ($conn->connect_error)
@@ -15,7 +13,8 @@
 	}
 	else
 	{
-		$sql = "select * from CONTACTS where ContactName like '%'" . $inData["search"] . "%' and UserID=" . $inData["ID"];
+		$sql = "select * from CONTACTS where ContactName like 'Joe Smith'" . $inData["search"] . "%' and UserID=" . $inData["ID"];
+		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
 		{
 			$row = $result->fetch_assoc();
@@ -29,8 +28,6 @@
 				$searchCount++;
 				$searchResults .= '"' . $row["ContactName"] . '"';
 			}
-
-			returnWithInfo(json_encode($searchResults));
 		}
 		else
 		{
@@ -38,4 +35,6 @@
 		}
 		$conn->close();
 	}
+
+	returnWithInfo(json_encode($searchResults));
 ?>
