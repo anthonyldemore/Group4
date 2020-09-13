@@ -47,7 +47,26 @@
 
       else
       {
-          returnWithInfo('"User ' . $username . ' has been created."');
+          // Verify that the inserted data exists in the database.
+          $sql = "SELECT * FROM `USERS`"
+              . "WHERE `Username` = '" . $username . "';";
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+
+              $returnArr = array(
+                "ID" => $row["ID"],
+                "Username" => $row["Username"],
+                "CreatedDate" => $row["CreatedDate"],
+                "Message:" => "User $username has been created."
+              );
+
+              returnWithInfo(json_encode($returnArr));
+          }
+          else
+          {
+              returnWithError("An unknown error has occurred when creating user.");
+          }
       }
 
       $conn->close();
