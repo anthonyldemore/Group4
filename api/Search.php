@@ -1,6 +1,9 @@
 <?php
 	include 'common.php';
-	//$inData = getRequestInfo();
+
+	$inData = getRequestInfo();
+
+	$SearchedName = $inData["search"];
 
 	$searchResults = "";
 	$email = "";
@@ -12,24 +15,27 @@
 	}
 	else
 	{
-		//$sql = "select Name from CONTACTS where ContactName like '%" . $inData["search"] . "%' and UserID=" . $inData["ID"];
-		$sql = "select * from CONTACTS where ContactName like 'John Smith'";	// testing to see if database can be searched
-		$result = $conn->query($sql);
+		$sql = "select * from CONTACTS where ContactName like '%'" . $inData["search"] . "%' and UserID=" . $inData["ID"];
 		if ($result->num_rows > 0)
 		{
 			$row = $result->fetch_assoc();
 
-			$searchResults = $row["ContactName"];
-			$email = $row["Email"];
+			while($row = $result->fetch_assoc())
+			{
+				if( $searchCount > 0 )
+				{
+					$searchResults .= ",";
+				}
+				$searchCount++;
+				$searchResults .= '"' . $row["ContactName"] . '"';
+			}
 
-			echo $searchResults;
-			echo "<br>";
-			echo $email;
+			returnWithInfo(json_encode($searchResults));
 		}
 		else
 		{
 			returnWithError( "No Records Found" );
 		}
-		//$conn->close();
+		$conn->close();
 	}
 ?>
