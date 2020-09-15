@@ -27,9 +27,9 @@
                 . "Address = `" . $address . "`,"
                 . "Email = `" . $email . "`,"
                 . "Phone = `" . $phone . "` "
-                . "WHERE `UserID` IN ($userId) AND ID = $contactId";
+                . "WHERE `UserID` = ." $userId . " AND ID = " . $contactId;
 
-        if (result = $conn->query($sql) != TRUE)
+        if ($result = $conn->query($sql) != TRUE)
         {
             returnWithError($conn->error);
         }
