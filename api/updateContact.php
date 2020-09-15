@@ -22,12 +22,12 @@
     {
         // Insert Values
         $sql = "UPDATE `CONTACTS` "
-                . "SET ContactName = `" . $contactName . "`,"
-                . "CompanyName = `" . $companyName . "`,"
-                . "Address = `" . $address . "`,"
-                . "Email = `" . $email . "`,"
-                . "Phone = `" . $phone . "` "
-                . "WHERE `UserID` = ." $userId . " AND ID = " . $contactId;
+                . "SET ContactName = '" . $contactName . "',"
+                . "CompanyName = '" . $companyName . "',"
+                . "Address = '" . $address . "',"
+                . "Email = '" . $email . "',"
+                . "Phone = '" . $phone . "' "
+                . "WHERE UserID = " . $userId . " AND ID = " . $contactId;
 
         if ($result = $conn->query($sql) != TRUE)
         {
