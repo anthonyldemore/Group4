@@ -26,6 +26,16 @@ This file handles creating new contacts for users. It expects the following keys
 - **email** - The contact's e-mail address.
 - **phone** - The contact's phone number.
 
+## updateContact.PHP
+This file handles updating existing contacts. It expects the following keys:
+- **userId** - The account's user ID to associate the new contact with.
+- **contactId** - The contact's unique ID
+- **contactName** - The contact's name.
+- **companyName** - The contact's company name.
+- **address** - The contact's address.
+- **email** - The contact's e-mail address.
+- **phone** - The contact's phone number.
+
 ## Delete.PHP
 This file handles removing contacts for users. It expects the following fields.
 - **idArr** - An array of contact IDs. These should be fetched when the user selects contacts to remove when accessing his/her contacts table.
