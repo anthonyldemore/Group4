@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss">
 #app {
-  background: lightgray !important;
+  background: rgb(144, 223, 223);
   min-height: 100vh;
 }
 </style>

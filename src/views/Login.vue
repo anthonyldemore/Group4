@@ -1,11 +1,11 @@
 <template>
-  <Sigining>
+<Signing>
     <div class="login">
       <form class="form-signin">
-        <h3>Sign In</h3>
+        <h5>Sign In</h5>
 
         <div class="form-group">
-        <label>User Name</label>
+        <label id="username">Username</label>
         <input v-model="username" class="form-control form-control-lg" />
         </div>
         <div class="form-group">
@@ -27,15 +27,22 @@
         </p>
       </form>
     </div>
-  </Sigining>
+    </Signing>
 </template>
 
+<style>
+body.modal-open {
+  height: 100vh;
+  overflow: hidden;
+}
+</style>
+
 <script>
-import Sigining from '../layouts/Signing.vue'
+import Signing from '../layouts/Signing.vue'
 export default {
   name: 'login',
   components: {
-    Sigining
+    Signing
   },
   data: () => ({
     username: '',

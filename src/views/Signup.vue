@@ -1,10 +1,10 @@
 <template>
-  <Signing>
+<Signing>
     <div class="login">
       <form>
-        <h3>Sign Up</h3>
+        <h5>Sign Up</h5>
         <div class="form-group">
-          <label>User Name</label>
+          <label>Username</label>
           <input v-model="username" type="text" class="form-control form-control-lg"/>
         </div>
         <div class="form-group">
@@ -12,7 +12,7 @@
           <input v-model="name" type="text" class="form-control form-control-lg"/>
         </div>
         <div class="form-group">
-          <label for="email">Email address</label>
+          <label for="email">Email Address</label>
           <input v-model="email" type="email" id="email" name="email" class="form-control form-control-lg" />
         </div>
         <div class="form-group">
@@ -32,14 +32,13 @@
         </b-alert>
          <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-lg btn-block">Sign Up</button>
         <p class="forgot-password text-right">
-          Already registered
-        <router-link :to="{name: 'login'}">sign in?</router-link>
+          Already registered?
+        <router-link :to="{name: 'login'}">Sign In</router-link>
         </p>
       </form>
     </div>
   </Signing>
 </template>
-
 <script>
 import Signing from '../layouts/Signing.vue'
 export default {
