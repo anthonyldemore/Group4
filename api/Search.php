@@ -4,7 +4,7 @@
 	$inData = getRequestInfo();
 
 	$search = $inData["search"];
-	$userId = $inData["ID"];
+	$userId = $inData["userId"];
 	$resultArr = array();
 
 	$searchCount = 0;
