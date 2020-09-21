@@ -5,6 +5,7 @@
 
 	$search = $inData["search"];
 	$userId = $inData["ID"];
+	$resultArr = array();
 
 	$searchCount = 0;
 
@@ -15,19 +16,13 @@
 	}
 	else
 	{
-		$sql = "SELECT * FROM CONTACTS WHERE ContactName LIKE '%" . $search . "%' and ID = " . $userId;
+		$sql = "SELECT * FROM CONTACTS WHERE ContactName LIKE '%" . $search . "%' and userID = " . $userId;
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
 		{
 			while($row = $result->fetch_assoc())
 			{
-				if( $searchCount > 0 )
-				{
-					$resultArr .= ",";
-				}
-				$searchCount++;
-
-				$resultArr = array(
+				$resultArr[] = array(
 					"ContactName" => $row["ContactName"],
 					"CompanyName" => $row["CompanyName"],
 					"Address" => $row["Address"],
