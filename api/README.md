@@ -41,7 +41,9 @@ This file handles removing contacts for users. It expects the following fields.
 - **idArr** - An array of contact IDs. These should be fetched when the user selects contacts to remove when accessing his/her contacts table.
 
 ## Search.PHP
-This file handles searching for contacts. This is a work-in-progress.
+This file handles searching for contacts. It expects the following keys:
+- **search** - The full or partial contact name to be searched for.
+- **userId** - The ID of the user that the contact is associated with.
 
 ### Old
 
