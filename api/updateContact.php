@@ -29,9 +29,25 @@
                 . "Phone = '" . $phone . "' "
                 . "WHERE UserID = " . $userId . " AND ID = " . $contactId;
 
+                
         if ($result = $conn->query($sql) != TRUE)
         {
             returnWithError($conn->error);
+        }
+        else
+        {
+
+            $responseArr = array(
+                "ContactName" => $contactName,
+                "CompanyName" => $companyName,
+                "Address" => $address,
+                "Email" => $email,
+                "Phone" => $phone,
+                "Message" => "Contact " . $contactId . " (" . $contactName . ") has been updated
+                successfully."
+            );
+
+            returnWithInfo(json_encode($responseArr));
         }
         $conn->close();
     }
