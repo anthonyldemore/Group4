@@ -11,11 +11,7 @@ This file handles the creation of new user accounts. It expects the following ke
 - **username** - The account's desired username. Note that the username is unique, so if it already exists in the database, the account creation will fail.
 - **password** - The account's desired password.
 - **name** - The user's preferred name.
-- **companyName** - The user's company name.
-- **position** - The user's job position.
-- **address** - The user's address.
 - **email** - The user's e-mail address.
-- **phone** - The user's phone number.
 
 ## addContact.PHP
 This file handles creating new contacts for users. It expects the following keys:

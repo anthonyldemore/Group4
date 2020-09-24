@@ -7,11 +7,7 @@
   $username = $inData["username"];
   $password = $inData["password"];
   $name = $inData["name"];
-  $companyName = $inData["companyName"];
-  $position = $inData["position"];
-  $address = $inData["address"];
   $email = $inData["email"];
-  $phone = $inData["phone"];
 
   // Encrypt password
   $encryptedPassword = "AES_ENCRYPT('" . $password . "', UNHEX(SHA2('" . $key . "', 256)))";
@@ -28,16 +24,12 @@
   else
   {
       // Our SQL command.
-      $sql = "INSERT INTO `USERS` (`Username`, `Password`, `PreferredName`, `CompanyName`, `Position`, `Address`, `Email`, `Phone`)"
+      $sql = "INSERT INTO `USERS` (`Username`, `Password`, `PreferredName`, `Email`)"
       . "VALUES (
           '" . $username . "',
           " . $encryptedPassword . ",
           '" . $name . "',
-          '" . $companyName . "',
-          '" . $position . "',
-          '" . $address . "',
-          '" . $email . "',
-          '" . $phone . "')";
+          '" . $email . "')";
 
       // Check if our query is successful or not
       if ($result = $conn->query($sql) != TRUE)
