@@ -4,7 +4,9 @@
       <form>
         <h5>Sign Up</h5>
         <div class="form-group">
+          <div class= "username">
           <label>Username</label>
+          </div>
           <input v-model="username" type="text" class="form-control form-control-lg"/>
         </div>
         <div class="form-group">
@@ -30,7 +32,7 @@
         >
           The username or password are incorrect
         </b-alert>
-         <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+         <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-sml btn-block">Sign Up</button>
         <p class="forgot-password text-right">
           Already registered?
         <router-link :to="{name: 'login'}">Sign In</router-link>

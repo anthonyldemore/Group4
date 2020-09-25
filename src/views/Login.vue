@@ -3,9 +3,10 @@
     <div class="login">
       <form class="form-signin">
         <h5>Sign In</h5>
-
         <div class="form-group">
+          <div class= "username">
         <label id="username">Username</label>
+        </div>
         <input v-model="username" class="form-control form-control-lg" />
         </div>
         <div class="form-group">

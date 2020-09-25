@@ -10,9 +10,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
-  background: rgb(144, 223, 223);
-  min-height: 100vh;
+ background: #afd5e4;
+ background-size: cover;
+ background-position: center;
+ min-height: 100vh;
 }
 </style>
