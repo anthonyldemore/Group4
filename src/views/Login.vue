@@ -12,7 +12,7 @@
         <input v-model="password" type="password" id="pwd" name="pwd" class="form-control form-control-lg" />
         </div>
         <button type="submit" @click.prevent="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
-        <b-alert variant="danger" v-if="error" :show="error" fade @dimssed="error=false" dismissible>
+        <b-alert variant="danger" v-if="fail" :show="fail" fade @dimssed="fail=false" dismissible>
           The username or password are incorrect
         </b-alert>
         <b-alert variant="pass" v-if="pass" :show="pass" fade @dimssed="pass=false" dismissible>
@@ -39,7 +39,7 @@ export default {
     id: 1,
     username: '',
     password: '',
-    error: false,
+    fail: false,
     pass: false,
     dismissSecs: 5,
     dismissCountDown: 0,
@@ -58,7 +58,7 @@ export default {
         })
         .catch((error) => {
           if (error) console.log(error)
-          this.error = true
+          this.fail = true
         })
     },
     countDownChanged (dismissCountDown) {

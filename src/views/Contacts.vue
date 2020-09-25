@@ -2,29 +2,48 @@
   <Header>
     <div>
       <h1>Contacts Under Construction</h1>
-      <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left responsive="sm">
-        <thead>
-        </thead>
-        <tbody>
-          <tr v-for="contact in contacts" v-bind="contacts" :key="contact">
-            <td> {{contacts.name}} </td>
-            <td> {{contacts.email}} </td>
-            <td> {{contacts.position}} </td>
-          </tr>
-        </tbody>
+        <!-- <b-table-simple>
+        <b-tbody>
+          <b-thead>
+            <b-tr v-for="contact in contacts" v-bind="contacts" :key="contact">
+              <b-td> {{contacts.name}} </b-td>
+              <b-td> {{contacts.email}} </b-td>
+              <b-td> {{contacts.position}} </b-td>
+              <b-td><b-button size="sm" name="edit" class="edit" >Edit</b-button></b-td>
+              <b-td><b-button size="sm" class="delete">Delete</b-button></b-td>
+            </b-tr>
+          </b-thead>
+        </b-tbody>
+        </b-table-simple> -->
+        <b-table
+        striped hover
+        :items="items"
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        sort-icon-left
+        responsive="sm"
+        >
+          <template v-slot:cell(items)="row">
+           {{ row.contacts.name }} {{ row.contacts.email }} {{ row.contacts.positions }}
+          </template>
+          <template v-slot:cell(actions)>
+            <b-button size="sm" class="mr-1 edit">Edit</b-button>
+            <b-button size="sm" class="mr-1 delete">Delete</b-button>
+          </template>
       </b-table>
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
     </div>
-    <b-button v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
+    <b-button size="sm" class="mr-1" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
     <b-modal
       id="modal-prevent-closing-add"
       ref="modal"
       title="Add Contact"
       @show="resetModal"
-      @hidden="resetModal"
-      @ok="handleOk, submitData"
+      @hidden="submitData"
+      @ok="handleOk"
       ok-title="Add Contact"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
@@ -72,8 +91,8 @@
         </b-form-group>
       </form>
     </b-modal>
-    <b-button v-b-modal.modal-prevent-closing-delete>Delete Contact</b-button>
-    <b-button @click.prevent="logout()">Logout</b-button>
+    <b-button size="sm" class="mr-1" v-b-modal.modal-prevent-closing-delete>Delete Contact</b-button>
+    <b-button size="sm" @click.prevent="logout()">Logout</b-button>
 
     </div>
   </Header>
@@ -101,13 +120,15 @@ export default {
       sortDesc: false,
       actionButton: 'Insert',
       fields: [
-        { key: 'name', sortable: true },
-        { key: 'email', sortable: true },
-        { key: 'position', sortable: true }
+        { key: 'name', label: 'Full name', sortable: true },
+        { key: 'email', label: 'Email', sortable: true },
+        { key: 'position', label: 'Position', sortable: true },
+        { key: 'actions', label: 'Actions' }
       ],
       items: [
         { name: 'Juan S Rodriguez', email: 'juansrodz@gmail.com', position: 'Programmer' },
-        { name: 'Juan S Rodriguez', email: 'juansrodz@gmail.com', position: 'Programmer' }
+        { name: 'Albert', email: 'dddnsrodz@gmail.com', position: 'Arogrammer' },
+        { name: 'Wayne', email: 'xxansrodz@gmail.com', position: 'Zrogrammer' }
       ]
     }
   },
@@ -177,8 +198,6 @@ export default {
       if (!this.checkFormValidity()) {
         return
       }
-      // TODO: add contact function here
-      // this.contacts.push(this.name, this.email, this.position)
       this.$nextTick(() => {
         this.$bvModal.hide('modal-prevent-closing-add')
       })
