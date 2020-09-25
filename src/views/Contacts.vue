@@ -24,7 +24,8 @@
       title="Add Contact"
       @show="resetModal"
       @hidden="resetModal"
-      @ok="handleOk"
+      @ok="handleOk, submitData"
+      ok-title="Add Contact"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
@@ -118,18 +119,7 @@ export default {
       this.$store.commit('user/setLoggedIn', false)
       this.$router.push('/login')
     },
-    // fetchCustomers () {
-    //   this.$store.dispatch('user/FETCHCONTACTS', {
-    //     this.customers = response.body
-    //   })
-    //     .then(success => {
-    //       this.$router.push('/contacts')
-    //     })
-    //     .catch((error) => {
-    //       if (error) console.log(error)
-    //       this.error = true
-    //     })
-    // }
+    // fetch data and populate the contacts table
     fetchContacts () {
       axios
         .get('Search.php')
