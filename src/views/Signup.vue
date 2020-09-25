@@ -47,6 +47,7 @@ export default {
     Signing
   },
   data: () => ({
+    id: 0,
     username: '',
     name: '',
     email: '',
@@ -58,11 +59,13 @@ export default {
   methods: {
     signup () {
       if (this.password === this.confirmPassword) {
+        console.log(this.id)
         this.$store.dispatch('user/SIGNUP', {
           username: this.username,
           name: this.name,
           email: this.email,
-          password: this.password
+          password: this.password,
+          id: this.id + 1
         })
           .then(success => {
             this.$router.push('/contacts')

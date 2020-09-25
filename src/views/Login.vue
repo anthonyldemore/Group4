@@ -5,7 +5,7 @@
         <h3>Sign In</h3>
         <div class="form-group">
         <label>User Name</label>
-        <input v-model="username" id="username, id" class="form-control form-control-lg" />
+        <input v-model="username" id="username" class="form-control form-control-lg" />
         </div>
         <div class="form-group">
         <label for="pwd">Password</label>
@@ -36,7 +36,6 @@ export default {
     Sigining
   },
   data: () => ({
-    id: 1,
     username: '',
     password: '',
     fail: false,
@@ -47,9 +46,7 @@ export default {
   }),
   methods: {
     login () {
-      console.log(this.id)
       this.$store.dispatch('user/LOGIN', {
-        id: this.id + 1,
         username: this.username,
         password: this.password
       })

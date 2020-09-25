@@ -25,7 +25,7 @@
         responsive="sm"
         >
           <template v-slot:cell(items)="row">
-           {{ row.contacts.name }} {{ row.contacts.email }} {{ row.contacts.positions }}
+           {{ row.contacts.contactName }} {{ row.contacts.email }} {{ row.contacts.positions }}
           </template>
           <template v-slot:cell(actions)>
             <b-button size="sm" class="mr-1 edit">Edit</b-button>
@@ -55,7 +55,7 @@
         >
           <b-form-input
             id="name-input"
-            v-model="name"
+            v-model="contactName"
             :state="nameState"
             required
           >
@@ -108,7 +108,8 @@ export default {
   },
   data () {
     return {
-      name: '',
+      userId: 0,
+      contactName: '',
       email: '',
       position: '',
       nameState: null,
@@ -157,13 +158,45 @@ export default {
         console.log('Inserting contact')
         axios
           .post('addContact.php', {
-            name: this.name,
+            userId: this.userId++,
+            contactName: this.contactName,
             email: this.email,
             position: this.position
           })
           .then(response => {
             console.log('Successfully added a contact ' + response)
             this.resetModal()
+            this.fetchContacts()
+          })
+          .catch((error) => {
+            if (error) console.log('Error when adding' + error)
+          })
+      }
+      if (this.actionButton === 'Update') {
+        axios
+          .post('Search.php', {
+            userId: this.userId,
+            contactName: this.contactName,
+            email: this.email,
+            position: this.position
+          })
+          .then(response => {
+            console.log('Successful updating a contact' + response)
+            this.fetchContacts()
+            this.resetModal()
+          })
+          .catch((error) => {
+            if (error) console.log('Error when adding' + error)
+          })
+      }
+    },
+    deleteData (id) {
+      if (confirm('Are you sure you want to remove this contact?')) {
+        axios
+          .post('Delete.php', {
+            id: id
+          })
+          .then(response => {
             this.fetchContacts()
           })
           .catch((error) => {
