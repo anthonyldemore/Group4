@@ -3,6 +3,7 @@ import axios from 'axios'
 export default {
   namespaced: true,
   state: {
+    contacts: [],
     isLoggedIn: false
   },
   getters: {
@@ -20,10 +21,12 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post('Login.php', payload)
-          .then(_ => {
-            console.log('SUCCESS')
-            commit('setLoggedIn', true)
-            resolve(true)
+          .then(({ _, status }) => {
+            if (status === 200) {
+              console.log('SUCCESS')
+              commit('setLoggedIn', true)
+              resolve(true)
+            }
           })
           .catch(error => {
             console.log('FAILURE')
@@ -36,14 +39,35 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post('createUser.php', payload)
-          .then(_ => {
-            console.log('SUCCESS')
-            commit('setLoggedIn', true)
-            resolve(true)
+          .then(({ _, status }) => {
+            if (status === 200) {
+              console.log('SUCCESS')
+              commit('setLoggedIn', true)
+              resolve(true)
+            }
           })
           .catch(error => {
             console.log('FAILURE')
             commit('setLoggedIn', false)
+            reject(error)
+          })
+      })
+    },
+    FETCHCONTACTS: ({ response }, payload) => {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('Search.php', payload)
+          .then(({ _, status }) => {
+            if (status === 200) {
+              console.log('SUCCESS')
+              this.contacts = response.data
+              // commit('setLoggedIn', true)
+              resolve(true)
+            }
+          })
+          .catch(error => {
+            console.log('FAILURE')
+            // commit('setLoggedIn', false)
             reject(error)
           })
       })
