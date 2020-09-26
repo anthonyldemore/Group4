@@ -59,7 +59,6 @@ export default {
   methods: {
     signup () {
       if (this.password === this.confirmPassword) {
-        console.log(this.id)
         this.$store.dispatch('user/SIGNUP', {
           username: this.username,
           name: this.name,
@@ -68,6 +67,7 @@ export default {
           id: this.id + 1
         })
           .then(success => {
+            console.log('UserID: ' + this.id)
             this.$router.push('/contacts')
           })
           .catch((error) => {
