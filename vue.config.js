@@ -1,7 +1,13 @@
 // vue.config.js
 module.exports = {
   // options...
-  devServer: {
-    proxy: 'https://corporatecontact.club/',
+    devServer: {
+      proxy: {
+      'http://corporatecontacts.club/LAMPAPI/': {
+        target: 'http://corporatecontacts.club/LAMPAPI/',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 }

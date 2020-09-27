@@ -82,7 +82,11 @@
   </Sigining>
 </template>
 
+
 <script>
+// TODO: Manage user ID from login response in state
+// Anytime I make a call to the api, I need to include the 
+// userID from state. 
 import Sigining from '../layouts/Signing.vue'
 export default {
   name: 'login',
@@ -102,13 +106,14 @@ export default {
   }),
   methods: {
     login () {
-      if (!this.fail) {
+      if (!this.fail || !this.username || !this.password) {
         this.$store.dispatch('user/LOGIN', {
           username: this.username,
           password: this.password
         })
           .then(success => {
             console.log('Successful login' + success.json + success.data + this.username)
+            console.log('Moving to the contacts page')
             this.$router.push('/contacts')
           })
           .catch((error) => {

@@ -3,10 +3,11 @@ import axios from 'axios'
 export default {
   namespaced: true,
   state: {
-    contacts: [],
+    user_log_id: 0, // If ID is zero they are not logged in. The state will always be zero if they are not logged in
     isLoggedIn: false
   },
   getters: {
+    
     loggedIn: state => {
       return state.loggedIn
     }
@@ -25,11 +26,14 @@ export default {
             if (status === 200) {
               console.log('SUCCESS')
               commit('setLoggedIn', true)
+              onsole.log('Before assigning users ID: ' + user_log_id)
+              user_log_id == respone.data.results.id
+              console.log('Aftering assigning users ID: ' + user_log_id)
               resolve(true)
             }
           })
           .catch(error => {
-            console.log('FAILURE')
+            console.log('FAILURE' + response.results.id)
             commit('setLoggedIn', false)
             reject(error)
           })

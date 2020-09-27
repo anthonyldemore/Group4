@@ -2,58 +2,33 @@
   <Header>
     <div>
       <h1>Contacts Under Construction</h1>
-        <b-table-simple class="panel-body table-responsive table-bordered table-striped">
-        <b-tbody class="panel-body">
-          <b-thead>
-            <b-tr>
-              <b-th>User ID</b-th>
-              <b-th>Contact Name</b-th>
-              <b-th>Email</b-th>
-              <b-th>Edit</b-th>
-              <b-th>Delete</b-th>
-            </b-tr>
-            <b-tr v-for="contact in contacts" v-bind="contacts" :key="contact">
-              <b-td> {{contact.name}} </b-td>
-              <b-td> {{contact.email}} </b-td>
-              <b-td> {{contact.position}} </b-td>
-              <b-td><b-button size="sm" name="edit" @click="fetchContacts(row.userId)">Edit</b-button></b-td>
-              <b-td><b-button size="sm" class="delete" @click="deleteData(row.userId)">Delete</b-button></b-td>
-            </b-tr>
-          </b-thead>
-        </b-tbody>
-        </b-table-simple>
-        <!-- <b-table
-        show-empty
-        small
-        striped hover
-        :items="data"
-        :fields="fields"
-        :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc"
-        sort-icon-left
-        responsive="sm"
+        <b-table
+          show-empty
+          small
+          striped hover
+          :items="items"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          sort-icon-left
+          responsive="sm"
         >
-          <template v-for="contact in contancts">
-            <template v-slot:cell[gomycell(key)]="row" >
-            {{ row.contact.contactName }} {{ row.contact.email }} {{ row.contact.positions }}
-            </template>
-            <template v-slot:cell(actions)>
-              <b-button size="sm" class="mr-1 edit" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
-              <b-button size="sm" class="mr-1 delete" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
-            </template>
+         <template v-slot:cell(actions)>
+            <b-button size="sm" class="mr-1 edit" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
+            <b-button size="sm" class="mr-1 delete" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
           </template>
-      </b-table> -->
+        </b-table>     
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
-    </div>
+      </div>
     <b-button size="sm" class="mr-1" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
     <b-modal
       id="modal-prevent-closing-add"
       ref="modal"
       title="Add Contact"
       @show="resetModal"
-      @hidden="submitData"
+      @hidden="resetModal"
       @ok="handleOk"
       ok-title="Add Contact"
     >
@@ -87,15 +62,15 @@
           </b-form-input>
         </b-form-group>
         <b-form-group
-          :state="positionState"
-          label="Position"
-          label-for="position-input"
-          invalid-feedback="Position is required"
+          :state="companyNameState"
+          label="Company Name"
+          label-for="companyName-input"
+          invalid-feedback="companyName is required"
         >
           <b-form-input
-            id="position-input"
-            v-model="position"
-            :state="positionState"
+            id="companyName-input"
+            v-model="companyName"
+            :state="companyNameState"
             required
           >
           </b-form-input>
@@ -143,15 +118,15 @@
           </b-form-input>
         </b-form-group>
         <b-form-group
-          :state="positionState"
-          label="Position"
-          label-for="position-input"
-          invalid-feedback="Position is required"
+          :state="companyNameState"
+          label="Company Name"
+          label-for="companyName-input"
+          invalid-feedback="companyName is required"
         >
           <b-form-input
-            id="position-input"
-            v-model="position"
-            :state="positionState"
+            id="companyName-input"
+            v-model="companyName"
+            :state="companyNameState"
             required
           >
           </b-form-input>
@@ -175,66 +150,73 @@ export default {
   data () {
     return {
       userId: 0,
+      contactID: 0,
       contactName: '',
       email: '',
-      position: '',
+      companyName: '',
       nameState: null,
       emailState: null,
-      positionState: null,
-      // contacts: [],
+      companyNameState: null,
+      contacts: [],
       errors: [],
       sortBy: 'name',
       sortDesc: false,
       actionButton: 'Insert',
       fields: [
-        { key: 'userId', label: 'ID', sortable: true },
-        { key: 'name', label: 'Full name', sortable: true },
-        { key: 'email', label: 'Email', sortable: true },
-        { key: 'position', label: 'Position', sortable: true },
+        { key: 'UserId', label: 'ID', sortable: true },
+        { key: 'ContactName', label: 'Contact Name', sortable: true },
+        { key: 'CompanyName', label: 'CompanyName', sortable: true },
+        { key: 'Address', label: 'Address', sortable: true },
+        { key: 'Email', label: 'Email', sortable: true },
+        { key: 'Phone', label: 'Phone', sortable: true },
         { key: 'actions', label: 'Actions' }
       ],
-      contacts: [
-        { contactName: '', email: '', position: '' }
-      ]
+      items: [{field_1: 'You'}]
     }
   },
   created () {
-    this.fetchContacts()
+    this.fetchContacts(1)
   },
   methods: {
-    logout () {
-      this.$store.commit('user/setLoggedIn', false)
-      this.$router.push('/login')
-    },
-    fetchContacts () { // fetch data and populate the contacts table
+    fetchContacts (contactId) { // fetch data and populate the contacts table
+      var postData = {
+        contactID: contactId,
+        search: ''
+      }
       axios
-        .post('Search.php')
+        .post('Search.php', postData)
         .then(response => {
-          console.log('Fetching contacts from database')
-          this.contacts = response.data
+          console.log('Fetching contacts from ' + response.json + response.data)
+          if ('error' in response.data) {
+            console.log('A 200 Status Error Occured')
+          } else {
+            this.userId = response.data.result.id // Just added this line
+            this.items = response.data.results
+            console.log('Contacts ' + this.userId + this.items.values)
+          }
         })
         .catch((error) => {
-          if (error) console.log('Error fetching contacts' + error)
+          if (error) console.log('Error fetching contacts ' + error)
           this.errors.push(error)
         })
     },
     submitData () {
       if (this.actionButton === 'Insert') {
-        console.log('Inserting contact')
+        console.log('Inserting contact ')
         axios
           .post('addContact.php', {
-            userId: this.userId++,
             contactName: this.contactName,
             email: this.email,
-            position: this.position
+            companyName: this.companyName
           })
           .then(response => {
-            console.log('Successfully added a contact ' + response)
+            console.log('Successfully added a contact ' + response.json + response.data)
             this.resetModal()
             this.fetchContacts()
+            console.log(this.contacts.contactName + this.contacts.email + this.contacts.companyName)
           })
           .catch((error) => {
-            if (error) console.log('Error when adding' + error)
+            if (error) console.log('Error when adding ' + error)
           })
       }
       if (this.actionButton === 'Update') {
@@ -243,15 +225,15 @@ export default {
             userId: this.userId,
             contactName: this.contactName,
             email: this.email,
-            position: this.position
+            companyName: this.companyName
           })
           .then(response => {
-            console.log('Successful updating a contact' + response)
+            console.log('Successful updating a contact ' + response)
             this.fetchContacts()
             this.resetModal()
           })
           .catch((error) => {
-            if (error) console.log('Error when adding' + error)
+            if (error) console.log('Error when adding ' + error)
           })
       }
     },
@@ -264,10 +246,11 @@ export default {
             })
             .then(response => {
               this.fetchContacts()
+              console.log('Successful delete ' + response.json + response.data)
               console.log('Successful delete')
             })
             .catch((error) => {
-              if (error) console.log('Error when deleting' + error)
+              if (error) console.log('Error when deleting ' + error)
               this.error = true
             })
         }
@@ -277,7 +260,7 @@ export default {
       const valid = this.$refs.form.checkValidity()
       this.nameState = valid
       this.emailState = valid
-      this.positionState = valid
+      this.companyNameState = valid
       return valid
     },
     resetModal () {
@@ -285,8 +268,8 @@ export default {
       this.nameState = null
       this.email = ''
       this.emailState = null
-      this.position = ''
-      this.positionState = null
+      this.companyName = ''
+      this.companyNameState = null
     },
     handleOk (bvModalEvt) {
       // Prevent modal from closing
@@ -300,6 +283,7 @@ export default {
         return
       }
       this.$nextTick(() => {
+        this.submitData()
         this.$bvModal.hide('modal-prevent-closing-add')
         this.$bvModal.hide('modal-prevent-closing-edit')
       })
@@ -311,21 +295,26 @@ export default {
       return `cell(${key})`
     },
     findContact (userId) {
+      console.log('Before function')
       this.openEditModal()
       axios
         .post('Search', {
           userId: this.userId
         })
         .then((response) => {
+          console.log('Successful searching ' + response.json + response.data)
           this.contactName = response.data.contactName
           this.email = response.data.email
-          this.position = response.data.position
+          this.companyName = response.data.companyName
         })
-
         .catch(error => {
           if (error) console.log('Error searching for contact')
           this.error.push(error)
         })
+    },
+    logout () {
+      this.$store.commit('user/setLoggedIn', false)
+      this.$router.push('/login')
     }
   }
 }
