@@ -149,7 +149,7 @@ export default {
   },
   data () {
     return {
-      userID: 0,
+      userId: 0,
       contactName: '',
       companyName: '',
       address: '',
@@ -175,18 +175,18 @@ export default {
     }
   },
   created () {
-    this.fetchContacts(1)
+    this.fetchContacts()
   },
   methods: {
-    fetchContacts (userId) { // fetch data and populate the contacts table
+    fetchContacts () { // fetch data and populate the contacts table
       var postData = {
-        userID: userId,
+        userId: this.$store.getters["user/user_log_id"],
         search: ''
       }
       axios
         .post('/api/Search.php', postData)
         .then(response => {
-          console.log('Fetching contacts from ' + response.json + response.data.results)
+          console.log('Fetching contacts from ' + response.data + response.data.results)
           if ('error' in response.data) {
             console.log('A 200 Status Error Occured... This error could also be due to an empty results array')
           } else {
@@ -200,9 +200,9 @@ export default {
           this.errors.push(error)
         })
     },
-    submitData (contactNameInput) {
+    submitData () {
       var postData = {
-        userID: this.userID,
+        userId: this.$store.getters["user/user_log_id"],
         contactName: this.contactName,
         companyName: this.companyName,
         address: this.address,
@@ -214,28 +214,24 @@ export default {
         axios
           .post('/api/addContact.php', postData)
           .then(response => {
-            console.log('Fetching contacts from ' + response.json + response.data)
-            if ('error' in response.data) {
-              console.log('A 200 Status Error Occured')
-            } else {
-              console.log('Successfully added a contact ' + response.json + response.data)
+            if (response.data.results) {
+              console.log('Successfully added a contact ' + response.data.results)
               this.items = response.data.results
               this.resetModal()
               this.fetchContacts()
             }
+            else if ('error' in response.data) {
+              console.log('A 200 Status Error Occured' + response.data.error)
+            } 
           })
           .catch((error) => {
             if (error) console.log('Error when adding ' + error)
           })
       }
       if (this.actionButton === 'Update') {
+        // postData['contactId'] = row.
         axios
-          .post('Search.php', {
-            userId: this.userId,
-            contactName: this.contactName,
-            email: this.email,
-            companyName: this.companyName
-          })
+          .post('/api/updateContact.php', postData)
           .then(response => {
             console.log('Successful updating a contact ' + response)
             this.fetchContacts()
@@ -266,7 +262,10 @@ export default {
       }
     },
     checkFormValidity () {
-      return this.$refs.form.checkValidity()
+      const valid = this.$refs.form.checkValidity()
+      this.emailState = valid
+      // return this.$refs.form.checkValidity()
+      return valid
     },
     resetModal () {
       this.contactName = ''

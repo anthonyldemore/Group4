@@ -34,11 +34,11 @@ export default {
               commit('setUserID', response.data.results.ID)
               resolve(true)
               console.log('SUCCESS' + response.data.results)
-            } else if (response.data.error) {
-              console.log('Error' + response.data.error)
-            } else {
-              console.log(response.data)
-            }
+              return
+            } 
+            if (response.data.error) console.log('Error' + response.data.error)
+            else console.log(response.data)
+            commit('setLoggedIn', false)
           })
           .catch(error => {
             console.log('FAILURE')
@@ -50,18 +50,18 @@ export default {
     SIGNUP: ({ commit }, payload) => {
       return new Promise((resolve, reject) => {
         axios
-          .post('createUser.php', payload)
+          .post('/api/createUser.php', payload)
           .then((response) => {
             if (response.data.results) {
               commit('setLoggedIn', true)
               commit('setUserID', response.data.results.ID)
               resolve(true)
               console.log('SUCCESS' + response.data.results)
-            } else if (response.data.error) {
-              console.log('Error' + response.data.error)
-            } else {
-              console.log(response.data)
-            }
+              return
+            } 
+            if (response.data.error) console.log('Error' + response.data.error)
+            else console.log(response.data)
+            commit('setLoggedIn', false)
           })
           .catch(error => {
             console.log('FAILURE')
