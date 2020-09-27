@@ -1,6 +1,56 @@
 <template>
 <Signing>
     <div class="login">
+      <form class="form-signin">
+        <h5>Sign In</h5>
+        <div class="form-group">
+          <div class= "username">
+        <label id="username">Username</label>
+        </div>
+        <input v-model="username" class="form-control form-control-lg" />
+        </div>
+        <div class="form-group">
+        <label for="pwd">Password</label>
+        <input v-model="password" type="password" id="pwd" name="pwd" class="form-control form-control-lg" />
+        </div>
+          <button type="submit" @click.prevent="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
+        <b-alert
+          color="error"
+          :value="error"
+          icon="close"
+      <form class="form-signin">
+        <h3>Sign In</h3>
+
+        <div class="form-group">
+        <label>User Name</label>
+        <input v-model="username" class="form-control form-control-lg" />
+        </div>
+        <div class="form-group">
+        <label for="pwd">Password</label>
+        <input v-model="password" type="password" id="pwd" name="pwd" class="form-control form-control-lg" />
+        </div>
+          <button type="submit" @click.prevent="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
+        <b-alert
+          color="error"
+          :value="error"
+          icon="close"
+      <form class="form-signin">
+        <h5>Sign In</h5>
+        <div class="form-group">
+          <div class= "username">
+        <label id="username">Username</label>
+        </div>
+        <input v-model="username" class="form-control form-control-lg" />
+        </div>
+        <div class="form-group">
+        <label for="pwd">Password</label>
+        <input v-model="password" type="password" id="pwd" name="pwd" class="form-control form-control-lg" />
+        </div>
+          <button type="submit" @click.prevent="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
+        <b-alert
+          color="error"
+          :value="error"
+          icon="close"
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
           :state="userNameState"

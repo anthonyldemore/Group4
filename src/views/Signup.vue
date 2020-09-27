@@ -28,7 +28,16 @@
          <b-alert variant="danger" :show="fail" fade @dimssed="fail=false" dismissible>
           The username or password are incorrect
         </b-alert>
+<<<<<<<<< Temporary merge branch 1
+         <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-sml btn-block">Sign Up</button>
+||||||||| f5d6983
          <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+=========
+        <b-alert variant="pass" :show="pass" fade @dimssed="pass=false" dismissible>
+          Successful Registration!
+        </b-alert>
+         <button type="submit" @click.prevent="signup(), fail, pass" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+>>>>>>>>> Temporary merge branch 2
         <p class="forgot-password text-right">
           Already registered?
         <router-link :to="{name: 'login'}">Sign In</router-link>
