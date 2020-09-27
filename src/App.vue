@@ -12,9 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 #app {
- background: #afd5e4;
- background-size: cover;
- background-position: center;
- min-height: 100vh;
+  background: lightgray !important;
+  min-height: 100vh;
 }
 </style>

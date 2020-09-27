@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Contacts from '../views/Contacts.vue'
+import Add from '../components/Add.vue'
+import Edit from '../components/Edit.vue'
 const { store } = require('../stores')
 
 Vue.use(VueRouter)
@@ -24,6 +26,18 @@ const routes = [
     path: '/contacts',
     name: 'contacts',
     component: Contacts,
+    meta: { requiresLogin: true }
+  },
+  {
+    path: '/add',
+    name: 'add',
+    component: Add,
+    meta: { requiresLogin: true }
+  },
+  {
+    path: '/edit',
+    name: 'edit',
+    component: Edit,
     meta: { requiresLogin: true }
   }
 ]

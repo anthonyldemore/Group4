@@ -23,7 +23,13 @@
 		{
 			$row = $result->fetch_assoc();
 
-			$resultArr = array("ID" => $row["ID"], "Username" => $row["Username"], "Name" => $row["PreferredName"], "Prev Login Date" => $row["LastLoginDate"]);
+			$resultArr = array(
+				"ID" => $row["ID"],
+				"Username" => $row["Username"],
+				"Name" => $row["PreferredName"],
+				"Prev Login Date" => $row["LastLoginDate"],
+				"Message" => "User $Username has logged in."
+			);
 
 			//Update Last Login Date.
 			$sql = "UPDATE `USERS` SET `LastLoginDate` = CURRENT_TIMESTAMP()"
