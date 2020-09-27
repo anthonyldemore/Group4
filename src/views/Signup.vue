@@ -25,14 +25,14 @@
           <label for="cpwd">Confirm Password</label>
           <input v-model="confirmPassword" type="password" id="cpwd" name="cpwd" class="form-control form-control-lg" />
         </div>
-        <b-alert
-          color="error"
-          :value="error"
-          icon="close"
-        >
+         <b-alert variant="danger" :show="fail" fade @dimssed="fail=false" dismissible>
           The username or password are incorrect
         </b-alert>
          <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-sml btn-block">Sign Up</button>
+        <b-alert variant="pass" :show="pass" fade @dimssed="pass=false" dismissible>
+          Succesful Registration!
+        </b-alert>
+         <button type="submit" @click.prevent="signup(), fail, pass" class="btn btn-dark btn-lg btn-block">Sign Up</button>
         <p class="forgot-password text-right">
           Already registered?
         <router-link :to="{name: 'login'}">Sign In</router-link>
@@ -49,12 +49,14 @@ export default {
     Signing
   },
   data: () => ({
+    id: 0,
     username: '',
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    error: false
+    fail: false,
+    pass: false
   }),
   methods: {
     signup () {
@@ -63,16 +65,19 @@ export default {
           username: this.username,
           name: this.name,
           email: this.email,
-          password: this.password
+          password: this.password,
+          id: this.id + 1
         })
           .then(success => {
+            console.log('UserID: ' + this.id)
             this.$router.push('/contacts')
           })
           .catch((error) => {
             if (error) console.log(error)
-            this.error = true
+            this.fail = true
+            console.log('Here!!! ' + error)
           })
-      }
+      } else { this.fail = true }
     }
   }
 }

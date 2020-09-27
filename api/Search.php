@@ -1,9 +1,13 @@
 <?php
 	include 'common.php';
-	//$inData = getRequestInfo();
 
-	$searchResults = "";
-	$email = "";
+	$inData = getRequestInfo();
+
+	$search = $inData["search"];
+	$userId = $inData["userId"];
+	$resultArr = array();
+
+	$searchCount = 0;
 
 	$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 	if ($conn->connect_error)
@@ -12,24 +16,27 @@
 	}
 	else
 	{
-		//$sql = "select Name from CONTACTS where ContactName like '%" . $inData["search"] . "%' and UserID=" . $inData["ID"];
-		$sql = "select * from CONTACTS where ContactName like 'John Smith'";	// testing to see if database can be searched
+		$sql = "SELECT * FROM CONTACTS WHERE ContactName LIKE '%" . $search . "%' and userID = " . $userId;
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
 		{
-			$row = $result->fetch_assoc();
+			while($row = $result->fetch_assoc())
+			{
+				$resultArr[] = array(
+					"ContactName" => $row["ContactName"],
+					"CompanyName" => $row["CompanyName"],
+					"Address" => $row["Address"],
+					"Email" => $row["Email"],
+					"Phone" => $row["Phone"]
+				);
+			}
 
-			$searchResults = $row["ContactName"];
-			$email = $row["Email"];
-
-			echo $searchResults;
-			echo "<br>";
-			echo $email;
+			returnWithInfo(json_encode($resultArr));
 		}
 		else
 		{
 			returnWithError( "No Records Found" );
 		}
-		//$conn->close();
+		$conn->close();
 	}
 ?>

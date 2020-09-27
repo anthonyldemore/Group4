@@ -15,18 +15,41 @@
 		{
 			if (count($idArr) > 0)
 			{
-				//$sql = "delete from CONTACTS where ContactName like '%'"; . $inData["search"] . "%' and UserID=" . $inData["ID"];
-				$sql = "DELETE FROM `CONTACTS`" . " WHERE `ID` IN (";;
+				//Convert an array of IDs into a SQL query friendly string.
+				$idWhere = "(";
 				foreach ($idArr as $id)
 				{
-					$sql = $sql . $id . ", ";
+					$idWhere = $idWhere . $id . ", ";
 				}
-				$sql = substr_replace($sql, ")", -2); //Replaces the final ", " with and end parenthesis to close the "IN" list.
+				$idWhere = substr_replace($idWhere, ")", -2); //Replaces the final ", " with and end parenthesis to close the "IN" list.
+
+				//Check number of existing records first.
+				$sql = "SELECT `ID` FROM `CONTACTS`" .
+					"WHERE `ID` IN " . $idWhere;
+				$result = $conn->query($sql);
+				$foundIDs = array();
+				if ($result->num_rows > 0)
+				{
+						while($row = $result->fetch_assoc())
+						{
+								array_push($foundIDs, $row["ID"]);
+						}
+				}
+
+				//$sql = "delete from CONTACTS where ContactName like '%'"; . $inData["search"] . "%' and UserID=" . $inData["ID"];
+				$sql = "DELETE FROM `CONTACTS`" .
+					" WHERE `ID` IN " . $idWhere;
 
 				if ($result = $conn->query($sql) == TRUE)
-					returnWithInfo('"' . count($idArr) . ' record(s) removed."');
+				{
+						$returnArr = array(
+							"RemovedIDs" => $foundIDs,
+							"Message" => count($idArr) . " record(s) removed."
+						);
+						returnWithInfo(json_encode($returnArr));
+				}
 				else
-		  		returnWithError($conn->$error);
+		  			returnWithError($conn->error);
 			}
 			else
 			{

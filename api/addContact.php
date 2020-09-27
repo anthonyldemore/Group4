@@ -30,6 +30,29 @@
       {
           returnWithError($conn->error);
       }
+      else
+      {
+          //Verify that the contact has been inserted.
+          $sql = "SELECT * FROM `CONTACTS`" .
+              "WHERE `UserID` = " . $userId . " ORDER BY `ID` DESC LIMIT 1";
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0)
+          {
+              $row = $result->fetch_assoc();
+
+              $returnArr = array(
+                "ID" => $row["ID"],
+                "ContactName" => $row["ContactName"],
+                "Message" => "Contact $contactName has been added."
+              );
+
+              returnWithInfo(json_encode($returnArr));
+          }
+          else
+          {
+              returnWithError("An unknown error has occurred when inserting contact info.");
+          }
+      }
 
       $conn->close();
   }

@@ -16,5 +16,7 @@ export default {
  background-size: cover;
  background-position: center;
  min-height: 100vh;
+  background: lightgrey !important;
+  min-height: 100vh;
 }
 </style>
