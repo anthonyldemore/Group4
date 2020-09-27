@@ -1,6 +1,23 @@
 <template>
-  <Sigining>
+<Signing>
     <div class="login">
+      <form class="form-signin">
+        <h5>Sign In</h5>
+        <div class="form-group">
+          <div class= "username">
+        <label id="username">Username</label>
+        </div>
+        <input v-model="username" class="form-control form-control-lg" />
+        </div>
+        <div class="form-group">
+        <label for="pwd">Password</label>
+        <input v-model="password" type="password" id="pwd" name="pwd" class="form-control form-control-lg" />
+        </div>
+          <button type="submit" @click.prevent="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
+        <b-alert
+          color="error"
+          :value="error"
+          icon="close"
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
           :state="userNameState"
@@ -45,10 +62,18 @@
         <b-button @click.prevent="forceLoginState()">forceLoginState</b-button>
         </p>
     </div>
-  </Sigining>
+    </Signing>
 </template>
 
+<style>
+body.modal-open {
+  height: 100vh;
+  overflow: hidden;
+}
+</style>
+
 <script>
+import Signing from '../layouts/Signing.vue'
 // TODO: Manage user ID from login response in state
 // Anytime I make a call to the api, I need to include the
 // userID from state.
@@ -56,7 +81,7 @@ import Sigining from '../layouts/Signing.vue'
 export default {
   name: 'login',
   components: {
-    Sigining
+    Signing
   },
   data () {
     return {
