@@ -1,10 +1,11 @@
 // vue.config.js
 module.exports = {
   // options...
-    devServer: {
-      proxy: {
-      'http://corporatecontacts.club/LAMPAPI/': {
-        target: 'http://corporatecontacts.club/LAMPAPI/',
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://corporatecontacts.club/LAMPAPI',
+        pathRewrite: { '^/api': '' },
         changeOrigin: true,
         secure: false
       }

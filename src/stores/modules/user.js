@@ -3,11 +3,14 @@ import axios from 'axios'
 export default {
   namespaced: true,
   state: {
-    user_log_id: 0, // If ID is zero they are not logged in. The state will always be zero if they are not logged in
+    user_log_id: -1, // If ID is zero they are not logged in. The state will always be zero if they are not logged in
+    // user_info: [],
     isLoggedIn: false
   },
   getters: {
-    
+    user_log_id: state => {
+      return state.user_log_id
+    },
     loggedIn: state => {
       return state.loggedIn
     }
@@ -15,25 +18,31 @@ export default {
   mutations: {
     setLoggedIn: (state, value) => {
       state.isLoggedIn = value
+    },
+    setUserId: (state, ID) => {
+      state.user_log_id = ID
     }
   },
   actions: {
     LOGIN: ({ commit }, payload) => {
       return new Promise((resolve, reject) => {
         axios
-          .post('Login.php', payload)
-          .then(({ _, status }) => {
-            if (status === 200) {
-              console.log('SUCCESS')
-              commit('setLoggedIn', true)
-              onsole.log('Before assigning users ID: ' + user_log_id)
-              user_log_id == respone.data.results.id
-              console.log('Aftering assigning users ID: ' + user_log_id)
+          .post('/api/Login.php', payload)
+          .then((response) => { 
+            if (!!response.data.results){
+              commit('setLoggedIn', true),
+              commit('setUserID', response.data.results.ID)
               resolve(true)
+              console.log('SUCCESS' + response.body.results)
+            } else if (!!response.body.error) {
+              console.log('Error' + response.body.error)
+            }
+            else {
+              console.log(response.body)
             }
           })
           .catch(error => {
-            console.log('FAILURE' + response.results.id)
+            console.log('FAILURE')
             commit('setLoggedIn', false)
             reject(error)
           })
@@ -43,11 +52,17 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post('createUser.php', payload)
-          .then(({ _, status }) => {
-            if (status === 200) {
-              console.log('SUCCESS')
-              commit('setLoggedIn', true)
+          .then((response) => { 
+            if (!!response.data.results){
+              commit('setLoggedIn', true),
+              commit('setUserID', response.data.results.Id)
               resolve(true)
+              console.log('SUCCESS' + response.body.results)
+            } else if (!!response.body.error) {
+              console.log('Error' + response.body.error)
+            }
+            else {
+              console.log(response.body)
             }
           })
           .catch(error => {

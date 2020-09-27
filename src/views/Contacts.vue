@@ -16,7 +16,7 @@
          <template v-slot:cell(actions)>
             <b-button size="sm" class="mr-1 edit" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
             <b-button size="sm" class="mr-1 delete" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
-          </template>
+         </template>
         </b-table>     
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
@@ -149,21 +149,20 @@ export default {
   },
   data () {
     return {
-      userId: 0,
-      contactID: 0,
+      userID: 0,
       contactName: '',
-      email: '',
       companyName: '',
+      address: '',
+      email: '',
+      phone: '',
       nameState: null,
       emailState: null,
       companyNameState: null,
-      contacts: [],
-      errors: [],
       sortBy: 'name',
       sortDesc: false,
       actionButton: 'Insert',
       fields: [
-        { key: 'UserId', label: 'ID', sortable: true },
+        { key: 'ID', label: 'Contact ID', sortable: true },
         { key: 'ContactName', label: 'Contact Name', sortable: true },
         { key: 'CompanyName', label: 'CompanyName', sortable: true },
         { key: 'Address', label: 'Address', sortable: true },
@@ -171,26 +170,27 @@ export default {
         { key: 'Phone', label: 'Phone', sortable: true },
         { key: 'actions', label: 'Actions' }
       ],
-      items: [{field_1: 'You'}]
+      items: [],
+      errors: []
     }
   },
   created () {
     this.fetchContacts(1)
   },
   methods: {
-    fetchContacts (contactId) { // fetch data and populate the contacts table
+    fetchContacts (userId) { // fetch data and populate the contacts table
       var postData = {
-        contactID: contactId,
+        userID: userId,
         search: ''
       }
       axios
-        .post('Search.php', postData)
+        .post('/api/Search.php', postData)
         .then(response => {
-          console.log('Fetching contacts from ' + response.json + response.data)
+          console.log('Fetching contacts from ' + response.json + response.data.results)
           if ('error' in response.data) {
-            console.log('A 200 Status Error Occured')
+            console.log('A 200 Status Error Occured... This error could also be due to an empty results array')
           } else {
-            this.userId = response.data.result.id // Just added this line
+            // store.state.user.user_info = response.data.result // Just added this line
             this.items = response.data.results
             console.log('Contacts ' + this.userId + this.items.values)
           }
@@ -200,20 +200,29 @@ export default {
           this.errors.push(error)
         })
     },
-    submitData () {
-      if (this.actionButton === 'Insert') {
+    submitData (contactNameInput) {
+      var postData = {
+        userID: this.userID,
+        contactName: this.contactName,
+        companyName: this.companyName,
+        address: this.address,
+        email: this.email,
+        phone: this.phone
+      }
+      if (this.actionButton === 'Insert') {  // Just added from line 213 to 221
         console.log('Inserting contact ')
         axios
-          .post('addContact.php', {
-            contactName: this.contactName,
-            email: this.email,
-            companyName: this.companyName
-          })
+          .post('/api/addContact.php', postData)
           .then(response => {
-            console.log('Successfully added a contact ' + response.json + response.data)
-            this.resetModal()
-            this.fetchContacts()
-            console.log(this.contacts.contactName + this.contacts.email + this.contacts.companyName)
+          console.log('Fetching contacts from ' + response.json + response.data)
+            if ('error' in response.data) {
+              console.log('A 200 Status Error Occured')
+            } else {
+              console.log('Successfully added a contact ' + response.json + response.data)
+              this.items = response.data.results
+              this.resetModal()
+              this.fetchContacts()
+            }
           })
           .catch((error) => {
             if (error) console.log('Error when adding ' + error)

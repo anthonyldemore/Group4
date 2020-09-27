@@ -1,40 +1,6 @@
 <template>
   <Sigining>
     <div class="login">
-      <!-- <form class="form-signin">
-        <h3>Sign In</h3>
-        <div class="form-group">
-        <label>User Name</label>
-        <input
-          v-model="username"
-          id="username"
-          class="form-control form-control-lg"
-        >
-        </div>
-        <div class="form-group">
-        <label for="pwd">Password</label>
-        <input
-          v-model="password"
-          type="password"
-          id="pwd"
-          name="pwd"
-          class="form-control form-control-lg"
-          v-on:keyup.enter="login()"
-        >
-        </div>
-        <button type="submit" @click.prevent="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
-        <b-alert variant="danger" v-if="fail" :show="fail" fade @dimssed="fail=false" dismissible>
-          The username or password are incorrect
-        </b-alert>
-        <b-alert variant="pass" v-if="pass" :show="pass" fade @dimssed="pass=false" dismissible>
-          Succesful login
-        </b-alert>
-        <p class="forgot-password text-right">
-          Don't have an account?
-        <router-link :to="{name: 'signup'}">Sign up</router-link>
-        <b-button @click.prevent="forceLoginState()">forceLoginState</b-button>
-        </p>
-      </form> -->
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
           :state="userNameState"
@@ -88,22 +54,28 @@
 // Anytime I make a call to the api, I need to include the 
 // userID from state. 
 import Sigining from '../layouts/Signing.vue'
+import axios from 'axios'
+
+const { store } = require('../stores')
 export default {
   name: 'login',
   components: {
     Sigining
   },
-  data: () => ({
-    username: '',
-    password: '',
-    userNameState: null,
-    passwordState: null,
-    fail: false,
-    pass: false,
-    dismissSecs: 5,
-    dismissCountDown: 0,
-    showDismissibleAlert: false
-  }),
+  data () {
+    return {
+      userId: 0,
+      username: '',
+      password: '',
+      userNameState: null,
+      passwordState: null,
+      fail: false,
+      pass: false,
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false
+    }
+  },
   methods: {
     login () {
       if (!this.fail || !this.username || !this.password) {
@@ -111,13 +83,11 @@ export default {
           username: this.username,
           password: this.password
         })
-          .then(success => {
-            console.log('Successful login' + success.json + success.data + this.username)
-            console.log('Moving to the contacts page')
+          .then(response => {
             this.$router.push('/contacts')
           })
           .catch((error) => {
-            if (error) console.log(error)
+            if (error) console.log('Login catch errors: ' + error)
             this.fail = true
           })
       }
@@ -137,7 +107,7 @@ export default {
     forceLoginState () {
       this.$router.push('/contacts')
       this.$store.commit('user/setLoggedIn', true)
-    }
+    },
   }
 }
 </script>
