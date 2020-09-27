@@ -12,14 +12,14 @@ export default {
       return state.user_log_id
     },
     loggedIn: state => {
-      return state.loggedIn
+      return state.isLoggedIn
     }
   },
   mutations: {
     setLoggedIn: (state, value) => {
       state.isLoggedIn = value
     },
-    setUserId: (state, ID) => {
+    setUserID: (state, ID) => {
       state.user_log_id = ID
     }
   },
@@ -28,17 +28,16 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post('/api/Login.php', payload)
-          .then((response) => { 
-            if (!!response.data.results){
-              commit('setLoggedIn', true),
+          .then((response) => {
+            if (response.data.results) {
+              commit('setLoggedIn', true)
               commit('setUserID', response.data.results.ID)
               resolve(true)
-              console.log('SUCCESS' + response.body.results)
-            } else if (!!response.body.error) {
-              console.log('Error' + response.body.error)
-            }
-            else {
-              console.log(response.body)
+              console.log('SUCCESS' + response.data.results)
+            } else if (response.data.error) {
+              console.log('Error' + response.data.error)
+            } else {
+              console.log(response.data)
             }
           })
           .catch(error => {
@@ -52,17 +51,16 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .post('createUser.php', payload)
-          .then((response) => { 
-            if (!!response.data.results){
-              commit('setLoggedIn', true),
-              commit('setUserID', response.data.results.Id)
+          .then((response) => {
+            if (response.data.results) {
+              commit('setLoggedIn', true)
+              commit('setUserID', response.data.results.ID)
               resolve(true)
-              console.log('SUCCESS' + response.body.results)
-            } else if (!!response.body.error) {
-              console.log('Error' + response.body.error)
-            }
-            else {
-              console.log(response.body)
+              console.log('SUCCESS' + response.data.results)
+            } else if (response.data.error) {
+              console.log('Error' + response.data.error)
+            } else {
+              console.log(response.data)
             }
           })
           .catch(error => {

@@ -17,7 +17,7 @@
             <b-button size="sm" class="mr-1 edit" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
             <b-button size="sm" class="mr-1 delete" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
          </template>
-        </b-table>     
+        </b-table>
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
@@ -214,7 +214,7 @@ export default {
         axios
           .post('/api/addContact.php', postData)
           .then(response => {
-          console.log('Fetching contacts from ' + response.json + response.data)
+            console.log('Fetching contacts from ' + response.json + response.data)
             if ('error' in response.data) {
               console.log('A 200 Status Error Occured')
             } else {
@@ -266,11 +266,7 @@ export default {
       }
     },
     checkFormValidity () {
-      const valid = this.$refs.form.checkValidity()
-      this.nameState = valid
-      this.emailState = valid
-      this.companyNameState = valid
-      return valid
+      return this.$refs.form.checkValidity()
     },
     resetModal () {
       this.contactName = ''

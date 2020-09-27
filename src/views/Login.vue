@@ -42,21 +42,17 @@
         <p class="forgot-password text-right">
           Don't have an account?
         <router-link :to="{name: 'signup'}">Sign up</router-link>
-        <b-button @click.prevent="forceLoginState()" :disabled="checkValidity">forceLoginState</b-button>
+        <b-button @click.prevent="forceLoginState()">forceLoginState</b-button>
         </p>
     </div>
   </Sigining>
 </template>
 
-
 <script>
 // TODO: Manage user ID from login response in state
-// Anytime I make a call to the api, I need to include the 
-// userID from state. 
+// Anytime I make a call to the api, I need to include the
+// userID from state.
 import Sigining from '../layouts/Signing.vue'
-import axios from 'axios'
-
-const { store } = require('../stores')
 export default {
   name: 'login',
   components: {
@@ -98,16 +94,10 @@ export default {
     showAlert () {
       this.dismissCountDown = this.dismissSecs
     },
-    checkFormValidity () {
-      const valid = this.$refs.form.checkValidity()
-      this.nameState = valid
-      this.emailState = valid
-      return valid
-    },
     forceLoginState () {
       this.$router.push('/contacts')
       this.$store.commit('user/setLoggedIn', true)
-    },
+    }
   }
 }
 </script>
