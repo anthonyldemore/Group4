@@ -6,7 +6,7 @@
 	$Username = $inData["username"];
 	$Password = $inData["password"];
 
-	if (!isEmptyString($Username) || $isEmptyString($Password))
+	if (isEmptyString($Username) || isEmptyString($Password))
 		returnWithInsufficientArguments();
 
 	else
