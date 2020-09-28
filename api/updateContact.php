@@ -32,8 +32,8 @@
       {
           //Check if contact exists first.
           $sql = "SELECT * FROM `CONTACTS`"
-            . "WHERE `UserID` = " . $userId
-            . "AND `ID` = " . $contactId;
+            . " WHERE `UserID` = " . $userId
+            . " AND `ID` = " . $contactId;
           $result = $conn->query($sql);
           if ($result->num_rows > 0)
           {
