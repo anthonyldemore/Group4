@@ -45,7 +45,7 @@
 				{
 						$returnArr = array(
 							"RemovedIDs" => $foundIDs,
-							"Message" => count($idArr) . " record(s) removed."
+							"Message" => count($foundIDs) . " record(s) removed."
 						);
 						returnWithInfo(json_encode($returnArr));
 				}
