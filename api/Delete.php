@@ -4,16 +4,17 @@
 	$inData = getRequestInfo();
 	$idArr = $inData["idArr"];
 
-	$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
-	if ($conn->connect_error)
+
+	if (is_array($idArr))
 	{
-		returnWithError( $conn->connect_error );
-	}
-	else
-	{
-		if (is_array($idArr))
+		if (count($idArr) > 0)
 		{
-			if (count($idArr) > 0)
+			$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
+			if ($conn->connect_error)
+			{
+				returnWithError( $conn->connect_error );
+			}
+			else
 			{
 				//Convert an array of IDs into a SQL query friendly string.
 				$idWhere = "(";
@@ -50,18 +51,18 @@
 				}
 				else
 		  			returnWithError($conn->error);
-			}
-			else
-			{
-				returnWithError("No contacts to delete.");
+
+				$conn->close();
 			}
 		}
 		else
 		{
-			returnWithError("Expected array of IDs. Passed value: " . $idArr);
+			returnWithError("No contacts to delete.");
 		}
-
-		$conn->close();
+	}
+	else
+	{
+		returnWithError("Expected array of IDs. Passed value: " . $idArr);
 	}
 
 ?>
