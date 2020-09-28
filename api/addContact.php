@@ -11,7 +11,7 @@
   $email = $inData["email"];
   $phone = $inData["phone"];
 
-  if (is_null($userID)
+  if (is_null($userId)
     || isEmptyString($contactName)
     || isEmptyString($companyName)
     || isEmptyString($address)
