@@ -23,6 +23,7 @@
 			while($row = $result->fetch_assoc())
 			{
 				$resultArr[] = array(
+					"ID" => $row["ID"],
 					"ContactName" => $row["ContactName"],
 					"CompanyName" => $row["CompanyName"],
 					"Address" => $row["Address"],

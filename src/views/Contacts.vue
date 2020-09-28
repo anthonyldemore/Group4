@@ -2,6 +2,14 @@
   <Header>
     <div>
       <h1>Contacts Under Construction</h1>
+        <b-input-group class="mt-3">
+          <b-form-input v-model="searchTerm"></b-form-input>
+            <b-input-group-append >
+              <b-button @click="search()" variant="info">Search</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </div>
+       
         <b-table
           show-empty
           small
@@ -13,16 +21,18 @@
           sort-icon-left
           responsive="sm"
         >
-         <template v-slot:cell(actions)>
-            <b-button size="sm" class="mr-1 edit" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
-            <b-button size="sm" class="mr-1 delete" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
-         </template>
+          <template> </template>
+          <template v-slot:cell(actions)="row">
+              <b-button size="sm" class="mr-1 edit" @click="startEdit(row)" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
+              <b-button size="sm" class="mr-1 delete"  @click="deleteData(row)" ok-title="Delete Contact">Delete</b-button>
+          </template>
         </b-table>
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
       </div>
     <b-button size="sm" class="mr-1" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
+    
     <b-modal
       id="modal-prevent-closing-add"
       ref="modal"
@@ -82,7 +92,7 @@
       id="modal-prevent-closing-edit"
       ref="modal"
       title="Edit Contact"
-      @show="resetModal"
+     
       @hidden="resetModal"
       @ok="handleOk"
       @click="submitData"
@@ -149,7 +159,11 @@ export default {
   },
   data () {
     return {
+      searchTerm: '',
+      editId: 0,
       userId: 0,
+      ID: 0,
+      tableNum: 0,
       contactName: '',
       companyName: '',
       address: '',
@@ -158,13 +172,13 @@ export default {
       nameState: null,
       emailState: null,
       companyNameState: null,
-      sortBy: 'name',
+      sortBy: 'Name',
       sortDesc: false,
       actionButton: 'Insert',
       fields: [
         { key: 'ID', label: 'Contact ID', sortable: true },
         { key: 'ContactName', label: 'Contact Name', sortable: true },
-        { key: 'CompanyName', label: 'CompanyName', sortable: true },
+        { key: 'CompanyName', label: 'Company Name', sortable: true },
         { key: 'Address', label: 'Address', sortable: true },
         { key: 'Email', label: 'Email', sortable: true },
         { key: 'Phone', label: 'Phone', sortable: true },
@@ -190,9 +204,8 @@ export default {
           if ('error' in response.data) {
             console.log('A 200 Status Error Occured... This error could also be due to an empty results array')
           } else {
-            // store.state.user.user_info = response.data.result // Just added this line
             this.items = response.data.results
-            console.log('Contacts ' + this.userId + this.items.values)
+            console.log('Successfully fetching contacts ' + this.items.values)
           }
         })
         .catch((error) => {
@@ -228,37 +241,63 @@ export default {
             if (error) console.log('Error when adding ' + error)
           })
       }
+    },
+    // TODO: When clicking on delete I need to know which contact ID I am deleting 
+    // That need to get passed as a parameter
+    // Change the entire built in logic for the post requests
+    editData () {
+      
+      var postData = {
+        ID: this.editId,
+        CompanyName: this.companyName,
+        ContactName:this.contactName,
+        Email: this.email ,
+        Phone: '',
+        Address: ''
+      }
+
       if (this.actionButton === 'Update') {
-        // postData['contactId'] = row.
+        // postData['contactId'] = row.contactId
+        console.log('Editing Contact')
         axios
-          .post('/api/updateContact.php', postData)
+          .post('/api/updateContact', postData)
           .then(response => {
-            console.log('Successful updating a contact ' + response)
-            this.fetchContacts()
-            this.resetModal()
+            if (response.data.results) { 
+              console.log('Successful delete ' + response.data.results)
+              this.items = response.data.results
+              this.fetchContacts()
+              this.resetModal()
+            }
+            else if ('error' in response.data) console.log('A 200 Status Error Occured' + response.data.error) 
           })
           .catch((error) => {
             if (error) console.log('Error when adding ' + error)
           })
       }
     },
-    deleteData (userId) {
+    // TODO: When clicking on delete I need to know which contact ID I am deleting 
+    // That need to get passed as a parameter
+    // Change the entire built in logic for the post requests
+    deleteData (row) {
       if (confirm('Are you sure you want to remove this contact?')) {
-        if (this.userId === userId) {
-          axios
-            .post('Delete.php', {
-              userId: this.userId
-            })
-            .then(response => {
-              this.fetchContacts()
-              console.log('Successful delete ' + response.json + response.data)
-              console.log('Successful delete')
-            })
-            .catch((error) => {
-              if (error) console.log('Error when deleting ' + error)
-              this.error = true
-            })
+        // var postData['contactId'] = row.contactId   //< the row of the contactId I am trying to delete 
+        var postData = { 
+          idArr:[] 
         }
+        postData.idArr.push(row.item.ID)       
+        console.log('Deleting contact')
+        axios
+          .post('/api/Delete.php', postData)
+          .then(response => {
+            if (response.data.results) { 
+              console.log('Successful delete ' + response.data.results)
+              this.fetchContacts() 
+            }
+            else if ('error' in response.data) console.log('A 200 Status Error Occured' + response.data.error) 
+          })
+          .catch((error) => {
+            if (error) console.log('Error when deleting ' + error)
+          })
       }
     },
     checkFormValidity () {
@@ -318,7 +357,36 @@ export default {
     },
     logout () {
       this.$store.commit('user/setLoggedIn', false)
+      this.$store.commit('user/setUserID', -1)
       this.$router.push('/login')
+    },
+    startEdit(row) {
+      console.log(row)
+      this.editId = row.item.ID
+      this.contactName = row.item.ContactName
+      this.email = row.item.Email  
+      this.companyName = row.item.CompanyName 
+    },
+    search () { // fetch data and populate the contacts table
+      var postData = {
+        userId: this.$store.getters["user/user_log_id"],
+        search: this.searchTerm
+      }
+      axios
+        .post('/api/Search.php', postData)
+        .then(response => {
+          console.log('Fetching contacts from ' + response.data + response.data.results)
+          if ('error' in response.data) {
+            console.log('A 200 Status Error Occured... This error could also be due to an empty results array')
+          } else {
+            this.items = response.data.results
+            console.log('Successfully fetching contacts ' + this.items.values)
+          }
+        })
+        .catch((error) => {
+          if (error) console.log('Error fetching contacts ' + error)
+          this.errors.push(error)
+        })
     }
   }
 }
