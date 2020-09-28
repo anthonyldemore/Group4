@@ -2,7 +2,7 @@
   <Header>
     <!-- <Signing> -->
     <div>
-      <h1>Contacts Under Construction</h1>
+      <h1>Contacts</h1>
         <b-input-group class="mt-3">
           <b-form-input v-model="searchTerm"></b-form-input>
             <b-input-group-append >
@@ -28,16 +28,15 @@
         >
           <template> </template>
           <template v-slot:cell(actions)="row">
-              <b-button size="sm" class="mr-1 edit" @click="startEdit(row)" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
-              <b-button size="sm" class="mr-1 delete"  @click="deleteData(row)" ok-title="Delete Contact">Delete</b-button>
+              <b-button size="sm" class="mr-1 edit" variant= "warning" @click="startEdit(row)" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
+              <b-button size="sm" class="mr-1 delete" variant= "danger" @click="deleteData(row)" ok-title="Delete Contact">Delete</b-button>
           </template>
         </b-table>
-        </div>
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
       </div>
-    <b-button size="sm" class="mr-1" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
+    <b-button size="md" class="mr-1" pill= "True" variant="primary" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
 
     <b-modal
       id="modal-prevent-closing-add"
@@ -150,7 +149,6 @@
       </form>
     </b-modal>
     <b-button size="md" pill= "True" variant="dark" @click.prevent="logout()">Logout</b-button>
-    </div>
     <!-- </Signing> -->
   </Header>
 </template>
@@ -160,7 +158,7 @@ h1
 {
   font-size: 30px;
   position: relative;
-  color: black;
+  color: rgb(10, 26, 68);
   text-align: center;
   text-shadow: 4px 5px 8px rgb(17, 99, 153);
 }

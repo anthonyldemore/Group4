@@ -42,7 +42,6 @@
         <p class="forgot-password text-right">
           Don't have an account?
         <router-link :to="{name: 'signup'}">Sign up</router-link>
-        <b-button @click.prevent="forceLoginState()">forceLoginState</b-button>
         </p>
     </div>
     </Signing>
