@@ -32,8 +32,14 @@
     echo $obj;
   }
 
+  function returnWithInsufficientArguments()
+  {
+    returnWithError( "Please fill out all required fields." );
+  }
+
   function returnWithError( $err )
   {
+    http_response_code(400);
     $retValue = '{"error":"' . $err . '"}';
     sendResultInfoAsJson( $retValue );
   }
@@ -42,5 +48,10 @@
   {
     $retValue = '{"results":' . $resultJSON . '}';
     sendResultInfoAsJson( $retValue );
+  }
+
+  function isEmptyString( $string )
+  {
+    return is_null($string) || $string == "";
   }
 ?>

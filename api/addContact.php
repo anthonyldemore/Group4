@@ -11,49 +11,59 @@
   $email = $inData["email"];
   $phone = $inData["phone"];
 
-  // Establish connection
-  $conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
-
-  // Test connection
-  if ($conn->connect_error)
-  {
-      returnWithError($conn->connect_error);
-  }
+  if (is_null($userId)
+    || isEmptyString($contactName)
+    || isEmptyString($companyName)
+    || isEmptyString($address)
+    || isEmptyString($email)
+    || isEmptyString($phone))
+      returnWithInsufficientArguments();
   else
   {
-      // Insert necessary values.
-      $sql = "INSERT INTO `CONTACTS` (`UserId`, `ContactName`, `CompanyName`, `Address`, `Email`, `Phone`) "
-      . "VALUES (" . $userId . ",'" . $contactName . "','" . $companyName . "','" . $address
-      . "','" . $email . "','" . $phone . "')";
+    // Establish connection
+    $conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 
-      if ($result = $conn->query($sql) != TRUE)
-      {
-          returnWithError($conn->error);
-      }
-      else
-      {
-          //Verify that the contact has been inserted.
-          $sql = "SELECT * FROM `CONTACTS`" .
-              "WHERE `UserID` = " . $userId . " ORDER BY `ID` DESC LIMIT 1";
-          $result = $conn->query($sql);
-          if ($result->num_rows > 0)
-          {
-              $row = $result->fetch_assoc();
+    // Test connection
+    if ($conn->connect_error)
+    {
+        returnWithError($conn->connect_error);
+    }
+    else
+    {
+        // Insert necessary values.
+        $sql = "INSERT INTO `CONTACTS` (`UserId`, `ContactName`, `CompanyName`, `Address`, `Email`, `Phone`) "
+        . "VALUES (" . $userId . ",'" . $contactName . "','" . $companyName . "','" . $address
+        . "','" . $email . "','" . $phone . "')";
 
-              $returnArr = array(
-                "ID" => $row["ID"],
-                "ContactName" => $row["ContactName"],
-                "Message" => "Contact $contactName has been added."
-              );
+        if ($result = $conn->query($sql) != TRUE)
+        {
+            returnWithError($conn->error);
+        }
+        else
+        {
+            //Verify that the contact has been inserted.
+            $sql = "SELECT * FROM `CONTACTS`" .
+                "WHERE `UserID` = " . $userId . " ORDER BY `ID` DESC LIMIT 1";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0)
+            {
+                $row = $result->fetch_assoc();
 
-              returnWithInfo(json_encode($returnArr));
-          }
-          else
-          {
-              returnWithError("An unknown error has occurred when inserting contact info.");
-          }
-      }
+                $returnArr = array(
+                  "ID" => $row["ID"],
+                  "ContactName" => $row["ContactName"],
+                  "Message" => "Contact $contactName has been added."
+                );
 
-      $conn->close();
+                returnWithInfo(json_encode($returnArr));
+            }
+            else
+            {
+                returnWithError("An unknown error has occurred when inserting contact info.");
+            }
+        }
+
+        $conn->close();
+    }
   }
 ?>

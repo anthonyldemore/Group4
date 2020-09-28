@@ -12,43 +12,67 @@
     $email = $inData["email"];
     $phone = $inData["phone"];
 
-    $conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
-
-    if ($conn->connect_error)
-    {
-        returnWithError($conn->connect_error);
-    }
+    if (is_null($userId)
+      || is_null($contactId)
+      || isEmptyString($contactName)
+      || isEmptyString($companyName)
+      || isEmptyString($address)
+      || isEmptyString($email)
+      || isEmptyString($phone))
+        returnWithInsufficientArguments();
     else
     {
-        // Insert Values
-        $sql = "UPDATE `CONTACTS` "
-                . "SET ContactName = '" . $contactName . "',"
-                . "CompanyName = '" . $companyName . "',"
-                . "Address = '" . $address . "',"
-                . "Email = '" . $email . "',"
-                . "Phone = '" . $phone . "' "
-                . "WHERE UserID = " . $userId . " AND ID = " . $contactId;
+      $conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 
-                
-        if ($result = $conn->query($sql) != TRUE)
-        {
-            returnWithError($conn->error);
-        }
-        else
-        {
+      if ($conn->connect_error)
+      {
+          returnWithError($conn->connect_error);
+      }
+      else
+      {
+          //Check if contact exists first.
+          $sql = "SELECT * FROM `CONTACTS`"
+            . " WHERE `UserID` = " . $userId
+            . " AND `ID` = " . $contactId;
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0)
+          {
+            // Insert Values
+            $sql = "UPDATE `CONTACTS` "
+                    . "SET ContactName = '" . $contactName . "',"
+                    . "CompanyName = '" . $companyName . "',"
+                    . "Address = '" . $address . "',"
+                    . "Email = '" . $email . "',"
+                    . "Phone = '" . $phone . "' "
+                    . "WHERE UserID = " . $userId . " AND ID = " . $contactId;
 
-            $responseArr = array(
-                "ContactName" => $contactName,
-                "CompanyName" => $companyName,
-                "Address" => $address,
-                "Email" => $email,
-                "Phone" => $phone,
-                "Message" => "Contact " . $contactId . " (" . $contactName . ") has been updated
-                successfully."
-            );
 
-            returnWithInfo(json_encode($responseArr));
-        }
-        $conn->close();
+            if ($result = $conn->query($sql) != TRUE)
+            {
+                returnWithError($conn->error);
+            }
+            else
+            {
+
+                $responseArr = array(
+                    "ContactName" => $contactName,
+                    "CompanyName" => $companyName,
+                    "Address" => $address,
+                    "Email" => $email,
+                    "Phone" => $phone,
+                    "Message" => "Contact " . $contactId . " (" . $contactName . ") has been updated
+                    successfully."
+                );
+
+                returnWithInfo(json_encode($responseArr));
+            }
+          }
+          else
+          {
+            returnWithError("No records found");
+          }
+
+          $conn->close();
+      }
     }
 ?>
