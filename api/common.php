@@ -49,4 +49,9 @@
     $retValue = '{"results":' . $resultJSON . '}';
     sendResultInfoAsJson( $retValue );
   }
+
+  function isEmptyString( $string )
+  {
+    return is_null($string) || $string == "";
+  }
 ?>
