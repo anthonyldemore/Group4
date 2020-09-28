@@ -30,35 +30,48 @@
       }
       else
       {
-          // Insert Values
-          $sql = "UPDATE `CONTACTS` "
-                  . "SET ContactName = '" . $contactName . "',"
-                  . "CompanyName = '" . $companyName . "',"
-                  . "Address = '" . $address . "',"
-                  . "Email = '" . $email . "',"
-                  . "Phone = '" . $phone . "' "
-                  . "WHERE UserID = " . $userId . " AND ID = " . $contactId;
-
-
-          if ($result = $conn->query($sql) != TRUE)
+          //Check if contact exists first.
+          $sql = "SELECT * FROM `CONTACTS`"
+            . "WHERE `UserID` = " . $userId
+            . "AND `ID` = " . $contactId;
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0)
           {
-              returnWithError($conn->error);
+            // Insert Values
+            $sql = "UPDATE `CONTACTS` "
+                    . "SET ContactName = '" . $contactName . "',"
+                    . "CompanyName = '" . $companyName . "',"
+                    . "Address = '" . $address . "',"
+                    . "Email = '" . $email . "',"
+                    . "Phone = '" . $phone . "' "
+                    . "WHERE UserID = " . $userId . " AND ID = " . $contactId;
+
+
+            if ($result = $conn->query($sql) != TRUE)
+            {
+                returnWithError($conn->error);
+            }
+            else
+            {
+
+                $responseArr = array(
+                    "ContactName" => $contactName,
+                    "CompanyName" => $companyName,
+                    "Address" => $address,
+                    "Email" => $email,
+                    "Phone" => $phone,
+                    "Message" => "Contact " . $contactId . " (" . $contactName . ") has been updated
+                    successfully."
+                );
+
+                returnWithInfo(json_encode($responseArr));
+            }
           }
           else
           {
-
-              $responseArr = array(
-                  "ContactName" => $contactName,
-                  "CompanyName" => $companyName,
-                  "Address" => $address,
-                  "Email" => $email,
-                  "Phone" => $phone,
-                  "Message" => "Contact " . $contactId . " (" . $contactName . ") has been updated
-                  successfully."
-              );
-
-              returnWithInfo(json_encode($responseArr));
+            returnWithError("No records found");
           }
+
           $conn->close();
       }
     }
