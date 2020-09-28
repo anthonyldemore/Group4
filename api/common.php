@@ -34,12 +34,12 @@
 
   function returnWithInsufficientArguments()
   {
-    http_response_code(400);
     returnWithError( "Please fill out all required fields." );
   }
 
   function returnWithError( $err )
   {
+    http_response_code(400);
     $retValue = '{"error":"' . $err . '"}';
     sendResultInfoAsJson( $retValue );
   }
