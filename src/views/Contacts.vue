@@ -1,28 +1,35 @@
 <template>
   <Header>
+    <!-- <Signing> -->
     <div>
-      <h1>Contacts Under Construction</h1>
+      <h1>Contacts List</h1>
+      <div class="table">
         <b-table
           show-empty
           small
-          striped hover
+          :striped="striped"
           :items="items"
           :fields="fields"
+          :bordered="bordered"
+          :dark="dark"
+          :head-variant="headVariant"
+          :table-variant="tableVariant"
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
           sort-icon-left
           responsive="sm"
         >
          <template v-slot:cell(actions)>
-            <b-button size="sm" class="mr-1 edit" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
-            <b-button size="sm" class="mr-1 delete" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
+            <b-button size="sm" class="mr-1 edit" variant="warning" v-b-modal.modal-prevent-closing-edit>Edit</b-button>
+            <b-button size="sm" class="mr-1 delete" variant="danger" @click="deleteData" ok-title="Delete Contact">Delete</b-button>
          </template>
         </b-table>
+        </div>
       <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
       </div>
-    <b-button size="sm" class="mr-1" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
+    <b-button pill="True" variant="primary" size="md" class="mr-1" v-b-modal.modal-prevent-closing-add>Add Contact</b-button>
     <b-modal
       id="modal-prevent-closing-add"
       ref="modal"
@@ -133,12 +140,26 @@
         </b-form-group>
       </form>
     </b-modal>
-    <b-button size="sm" @click.prevent="logout()">Logout</b-button>
-
+    <b-button size="md" pill= "True" variant="dark" @click.prevent="logout()">Logout</b-button>
     </div>
+    <!-- </Signing> -->
   </Header>
 </template>
 
+<style scoped>
+h1
+{
+  font-size: 30px;
+  position: relative;
+  color: black;
+  text-align: center;
+  text-shadow: 4px 5px 8px rgb(17, 99, 153);  
+}
+.table
+{
+
+}
+</style>
 <script>
 import Header from '../layouts/Header'
 import axios from 'axios'
@@ -158,7 +179,7 @@ export default {
       nameState: null,
       emailState: null,
       companyNameState: null,
-      sortBy: 'name',
+      sortBy: 'Name',
       sortDesc: false,
       actionButton: 'Insert',
       fields: [
@@ -171,7 +192,29 @@ export default {
         { key: 'actions', label: 'Actions' }
       ],
       items: [],
-      errors: []
+      errors: [],
+      tableVariants: [
+          'primary',
+          'secondary',
+          'info',
+          'danger',
+          'warning',
+          'success',
+          'light',
+          'dark'
+        ],
+        striped: true,
+        bordered: true,
+        borderless: false,
+        outlined: false,
+        small: false,
+        hover: false,
+        dark: false,
+        fixed: false,
+        footClone: false,
+        headVariant: 'dark',
+        tableVariant: 'light',
+        noCollapse: false
     }
   },
   created () {

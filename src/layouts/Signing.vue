@@ -3,10 +3,8 @@
   <div class="centered">
     <div class="vertical-center">
       <h1> Corporate Contacts <img src="../../images/CorpContacts.png" style="vertical-align:top" alt=""></h1>
-       <div class= "bigBox">
       <div class="inner-block">
         <slot />
-      </div>
       </div>
     </div>
   </div>
@@ -32,7 +30,7 @@
     .inner-block
     {
       width: 300px;
-      max-height: 515px;
+      max-height: 500px;
     }
     h5
     {
@@ -40,7 +38,11 @@
     }
     .form-group
     {
-      height: 70px;
+      height: 66px;
+    }
+    .table
+    {
+      width: 200px;
     }
   }
 }
@@ -91,22 +93,12 @@
      height: 30px;
    }
 
-  label {
-    font-weight: 550;
-  }
+  // label {
+  //   font-weight: 550;
+  // }
   .username
 {
-  padding-top: 10px;
-}
-.bigbox
-{
-    width: 600px;
-    height: 50%;
-    background: #b81717;
-    position: relative;
-    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-    padding: 10px 15px 1px 15px;
-    border-radius: 25px;
+  padding-top: 8px;
 }
 </style>
 
