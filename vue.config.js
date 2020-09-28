@@ -2,13 +2,6 @@
 module.exports = {
   // options...
   devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://corporatecontacts.club/LAMPAPI',
-        pathRewrite: { '^/api': '' },
-        changeOrigin: true,
-        secure: false
-      }
-    }
+    proxy: 'https://corporatecontact.club/',
   }
 }

@@ -1,11 +1,9 @@
 <template>
-<Signing>
+  <Signing>
     <div class="login">
       <form>
         <div class="form-group">
-          <div class= "username">
           <label>Username</label>
-          </div>
           <input v-model="username" type="text" class="form-control form-control-lg"/>
         </div>
         <div class="form-group">
@@ -28,17 +26,18 @@
           The username or password are incorrect
         </b-alert>
         <b-alert variant="pass" :show="pass" fade @dimssed="pass=false" dismissible>
-          Successful Registration!
+          Succesful Registration!
         </b-alert>
          <button type="submit" @click.prevent="signup(), fail, pass" class="btn btn-dark btn-lg btn-block">Sign Up</button>
         <p class="forgot-password text-right">
-          Already registered?
-        <router-link :to="{name: 'login'}">Sign In</router-link>
+          Already registered
+        <router-link :to="{name: 'login'}">sign in?</router-link>
         </p>
       </form>
     </div>
   </Signing>
 </template>
+
 <script>
 import Signing from '../layouts/Signing.vue'
 export default {
@@ -59,6 +58,7 @@ export default {
   methods: {
     signup () {
       if (this.password === this.confirmPassword) {
+        console.log(this.id)
         this.$store.dispatch('user/SIGNUP', {
           username: this.username,
           name: this.name,
@@ -67,7 +67,6 @@ export default {
           id: this.id + 1
         })
           .then(success => {
-            console.log('UserID: ' + this.id)
             this.$router.push('/contacts')
           })
           .catch((error) => {

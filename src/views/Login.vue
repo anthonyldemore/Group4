@@ -1,5 +1,5 @@
 <template>
-<Signing>
+  <Signing>
     <div class="login">
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
@@ -44,55 +44,38 @@
         <router-link :to="{name: 'signup'}">Sign up</router-link>
         </p>
     </div>
-    </Signing>
+  </Signing>
 </template>
 
-<style>
-body.modal-open {
-  height: 100vh;
-  overflow: hidden;
-}
-</style>
-
 <script>
-// TODO: Manage user ID from login response in state
-// Anytime I make a call to the api, I need to include the
-// userID from state.
 import Signing from '../layouts/Signing.vue'
 export default {
   name: 'login',
   components: {
     Signing
   },
-  data () {
-    return {
-      userId: 0,
-      username: '',
-      password: '',
-      userNameState: null,
-      passwordState: null,
-      fail: false,
-      pass: false,
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      showDismissibleAlert: false
-    }
-  },
+  data: () => ({
+    username: '',
+    password: '',
+    fail: false,
+    pass: false,
+    dismissSecs: 5,
+    dismissCountDown: 0,
+    showDismissibleAlert: false
+  }),
   methods: {
     login () {
-      if (!this.fail || !this.username || !this.password) {
-        this.$store.dispatch('user/LOGIN', {
-          username: this.username,
-          password: this.password
+      this.$store.dispatch('user/LOGIN', {
+        username: this.username,
+        password: this.password
+      })
+        .then(success => {
+          this.$router.push('/contacts')
         })
-          .then(response => {
-            this.$router.push('/contacts')
-          })
-          .catch((error) => {
-            if (error) console.log('Login catch errors: ' + error)
-            this.fail = true
-          })
-      }
+        .catch((error) => {
+          if (error) console.log(error)
+          this.fail = true
+        })
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown

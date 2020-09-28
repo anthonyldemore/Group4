@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
-// import axios from 'axios'
+import axios from 'axios'
 
 import App from './App.vue'
 import router from './router'
@@ -15,7 +15,7 @@ Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
-// axios.defaults.baseURL = 'http://corporatecontacts.club/LAMPAPI'
+axios.defaults.baseURL = 'http://corporatecontacts.club/LAMPAPI'
 
 Vue.config.productionTip = false
 

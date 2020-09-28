@@ -6,8 +6,8 @@
       <div class="inner-block">
         <slot />
       </div>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -55,43 +55,30 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
   .inner-block {
-    width: 400px;
-    height: 30%;
+    width: 450px;
+    // margin: auto;
     background: #ffffff;
-    position: relative;
     box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
     padding: 10px 15px 1px 15px;
-    border-radius: 25px;
+    border-radius: 15px;
+    transition: all .3s;
   }
+
   .vertical-center {
     h3 {
       text-align: center;
       margin: 0;
       line-height: 1;
-      padding-bottom: 5px;
+      padding-bottom: 20px;
     }
     .form-control:focus {
-      border-color: rgb(203, 214, 218);
+      border-color: gray;
       box-shadow: none;
     }
-
-     h5 {
-      text-align: center;
-      margin: 0;
-      color: teal;
-      line-height: 1;
-      padding-top: 0px;
-      padding-bottom: 0px;
-    }
   }
-   img
-   {
-     width: 40px;
-     height: 30px;
-   }
 
   // label {
   //   font-weight: 550;
