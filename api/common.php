@@ -32,6 +32,12 @@
     echo $obj;
   }
 
+  function returnWithInsufficientArguments()
+  {
+    http_response_code(400);
+    returnWithError( "Please fill out all required fields." );
+  }
+
   function returnWithError( $err )
   {
     $retValue = '{"error":"' . $err . '"}';
