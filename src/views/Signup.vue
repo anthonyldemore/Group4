@@ -1,10 +1,12 @@
 <template>
-  <Signing>
+<Signing>
     <div class="login">
       <form>
-        <h3>Sign Up</h3>
+        <h5>Sign Up</h5>
         <div class="form-group">
-          <label>User Name</label>
+          <div class= "username">
+          <label>Username</label>
+          </div>
           <input v-model="username" type="text" class="form-control form-control-lg"/>
         </div>
         <div class="form-group">
@@ -12,7 +14,7 @@
           <input v-model="name" type="text" class="form-control form-control-lg"/>
         </div>
         <div class="form-group">
-          <label for="email">Email address</label>
+          <label for="email">Email Address</label>
           <input v-model="email" type="email" id="email" name="email" class="form-control form-control-lg" />
         </div>
         <div class="form-group">
@@ -26,19 +28,24 @@
          <b-alert variant="danger" :show="fail" fade @dimssed="fail=false" dismissible>
           The username or password are incorrect
         </b-alert>
+<<<<<<<<< Temporary merge branch 1
+         <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-sml btn-block">Sign Up</button>
+||||||||| f5d6983
+         <button type="submit" @click.prevent="signup()" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+=========
         <b-alert variant="pass" :show="pass" fade @dimssed="pass=false" dismissible>
-          Succesful Registration!
+          Successful Registration!
         </b-alert>
          <button type="submit" @click.prevent="signup(), fail, pass" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+>>>>>>>>> Temporary merge branch 2
         <p class="forgot-password text-right">
-          Already registered
-        <router-link :to="{name: 'login'}">sign in?</router-link>
+          Already registered?
+        <router-link :to="{name: 'login'}">Sign In</router-link>
         </p>
       </form>
     </div>
   </Signing>
 </template>
-
 <script>
 import Signing from '../layouts/Signing.vue'
 export default {

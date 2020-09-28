@@ -7,8 +7,6 @@
 	$userId = $inData["userId"];
 	$resultArr = array();
 
-	$searchCount = 0;
-
 	$conn = new mysqli("localhost", "group4cp_admin", "!@Pass4U@!", "group4cp_corporate");
 	if ($conn->connect_error)
 	{
