@@ -44,6 +44,7 @@
 				"Phone" => ""
 			);
 
+			http_response_code(400);
 			returnWithInfo(json_encode($resultArr));
 		}
 		$conn->close();
