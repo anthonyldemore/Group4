@@ -35,14 +35,8 @@
 		else
 		{
 			//returnWithError( "No Records Found" );
-			$resultArr[] = array(
-				"ID" => "",
-				"ContactName" => "",
-				"CompanyName" => "",
-				"Address" => "",
-				"Email" => "",
-				"Phone" => ""
-			);
+			/*$resultArr[] = array(
+			);*/
 
 			returnWithInfo(json_encode($resultArr));
 		}
